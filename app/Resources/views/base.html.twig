@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}MyBooks!{% endblock %}</title>
+        {% block stylesheets %}
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/shopshop/css/styles.css') }}" media="all" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/shopshop/css/widgets.css') }}" media="all" />
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        {% block body %}
+            <div class="wrapper">
+                <div class="page">
+                    <div class="header-container">
+                        {%block header%}
+                            <div class="header">
+                                <div class="quick-access">
+                                    <form id="search_mini_form" action="" method="get">
+                                        <div class="form-search">
+                                            <label for="search">Search:</label>
+                                            <input id="search" onkeyup="showResult(this.value)" type="text" name="search" class="input-text" maxlength="128" />
+                                            <button type="submit" title="Search" class="button"><span><span>Search!</span></span></button>
+                                        {#  <div id="livesearch"></div> #}
+                                                    </div>
+                                                </form>
+
+                                                <p class="welcome-msg">Welcome !</p>
+                                                <ul class="links">
+                                                    <li class="first" ><a href="" title="My Account" >My Account</a></li>
+                                                    <li class="first" ><a href="" title="Login" >Login</a></li>
+                                                    <li ><a href="" title="My Cart" class="top-link-cart">My Cart</a></li>
+                                                    <li ><a href="" title="Checkout" class="top-link-checkout">Checkout</a></li>
+                                                    <li class="last" ><a href="" title="" class="top-link-checkout">Logout</a></li>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                       {%endblock %}
+                                    </div>
+                       {%block navigator%}
+                                    <div class="nav-container">
+                                        <ul id="nav">
+                                            <li class="level0 nav-1 level-top first">
+                                                <a href="" class="level-top" style="color:#d96708" ><span></span></a>
+                                                <a href="" class="level-top" ><span></span></a>
+                                                <a href="" class="level-top" ><span></span></a>
+
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                       {%endblock %}
+                                {%block container%}
+
+                                {%endblock%}
+                       {%block footer %}
+                                    <div class = "footer-container">
+                                        <div class = "footer">
+                                            <ul>
+                                                <li><a href = "#">About Us</a></li>
+                                                <li><a href = "#">Customer Service</a></li>
+                                                <li class = "last privacy"><a href = "#">Privacy Policy</a></li>
+                                            </ul>
+                                            <ul class = "links">
+                                                <li class = "first" ><a href = "#" title = "Site Map" >Site Map</a></li>
+                                                <li ><a href = "#" title = "Search Terms" >Search Terms</a></li>
+                                                <li ><a href = "#" title = "Orders and Returns" >Orders and Returns</a></li>
+                                                <li class = " last" ><a href = "#" title = "Contact Us" >Contact Us</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                       {%endblock %}
+                                </div>
+                            </div>
+        {% endblock %}
+        {% block javascripts %}{% endblock %}
+                        </body>
+                    </html>
