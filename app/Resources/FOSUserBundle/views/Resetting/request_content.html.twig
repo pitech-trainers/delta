@@ -1,0 +1,39 @@
+{% trans_default_domain 'FOSUserBundle' %}
+<div class="main-container col1-layout">
+    <div class="main">
+        <div class="col-main">
+            <div class="account-create">
+                <form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
+                    <div class="fieldset">
+                        <h2 class="legend">Forgot password</h2>
+                        <div>
+        {% if invalid_username is defined %}
+                                <p>{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}) }}</p>
+        {% endif %}
+                                <fieldset>
+                                    <h4>Forgot your password?</h4>
+                                    <p>Please enter your email below:</p>
+                                    <ul class="form-list">
+                                        <li>
+                                            <label for="username" class="required"><em>*</em>{{ 'resetting.request.username'|trans }}</label>
+                                            <div class="input-box">
+                                                <input class="input-text required-entry validate-email" type="text" id="username" name="username" required="required" />                         
+                                            </div>
+                                        </li>
+
+                                    </ul>
+                                    <p class="required">* Required Fields</p>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="buttons-set">
+                                <a href="{{path ('fos_user_security_login')}}" class="f-left">Back</a>
+                                <button type="submit" name="reset" class="button" value="{{ 'resetting.request.submit'|trans }}" ><span><span>Reset password</span></span> </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

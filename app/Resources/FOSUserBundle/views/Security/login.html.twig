@@ -1,0 +1,72 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+<div class="main-container col1-layout">
+    <div class="main">
+        <div class="col-main">
+            <div class="account-login">
+                <div class="page-title">
+                    <h1>Login or Create an Account</h1>
+                </div>
+                <div class="col2-set">
+                    <div class="col-1 new-users">
+                        <div class="content">
+                            <h2>New Customers</h2>
+                            <p>By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.</p>
+                        </div>
+                    </div>
+                    <div class="col-2 registered-users">
+                        <div class="content">
+                            <h2>Registered Customers</h2>
+                            <p>If you have an account with us, please log in.</p>
+
+                            <ul class="form-list">
+
+                                <form action="{{ path("fos_user_security_check") }}" method="post">
+
+                                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                                    <li>
+                                        <div class="input-box">
+                                            <label for="username" class="required"><em>*</em>{{ 'security.login.username'|trans }}</label>
+                                            <input class="input-text required-entry validate-email" type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="input-box">
+                                            <label for="password" class="required"><em>*</em>{{ 'security.login.password'|trans }}</label>
+                                            <input  class="input-text required-entry validate-password"  type="password" id="password" name="_password" required="required" />
+                                        </div>
+                                    </li>
+
+                            </ul>
+                            <p class="required">* Required Fields</p>
+                            {% if error %}
+                            <div class="error">{{ error|trans }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col2-set">
+                    <div class="col-1 new-users">
+                        <div class="buttons-set">
+                            <button  type="button" 
+                                     onclick="location.href = '{{path ('fos_user_registration_register')}}'"
+                                     title="Create an Account" class="button" ><span><span>Create an Account</span></span></button>
+                        </div>
+                    </div>
+                    <div class="col-2 registered-users">
+                        <div class="buttons-set">
+                            <a href="{{path ('fos_user_resetting_request')}}" class="f-left">Forgot Your Password?</a>
+                            <button type="submit" class="button"  name="_submit"  id="send2"><span><span>Login</span></span></button> 
+                        </div>
+                            
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock fos_user_content %}
