@@ -51,16 +51,13 @@
                                                 </div>
                        {%block navigator%}
                                                 <div class="nav-container">
-                                                    <ul id="nav">
-                                                        <li class="level0 nav-1 level-top first">
-                                                            <a href="" class="level-top" style="color:#d96708" ><span></span></a>
-                                                            <a href="" class="level-top" ><span></span></a>
-                                                            <a href="" class="level-top" ><span></span></a>
-
-                                                        </li>
-
-                                                    </ul>
-                                                </div>
+                                                <ul id="nav">
+                                                <li class="level-0 level-top">
+                                                <a href="{{ knp_menu_render('ShopShopBundle:Builder:mainMenu') }}" 
+                                                   class="level-top" style="color:#d96708" ></a>
+                                                </li>
+                                        </ul>  
+                                    </div>
                        {%endblock %}
                                                 
                                 {%block container%}
