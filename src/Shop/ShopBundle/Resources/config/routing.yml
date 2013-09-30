@@ -1,0 +1,18 @@
+shop_shop_homepage:
+    pattern:  /
+    defaults: { _controller: ShopShopBundle:Default:index }
+    
+shop_shop_productpage:
+    pattern: /product_{id}
+    defaults: { _controller: ShopShopBundle:Page:showproduct }
+    requirements:
+        _method:  GET
+        id: \d+
+
+shop_shop_categorypage:
+    pattern: /catid={id}
+    defaults: { _controller: ShopShopBundle:categoryPage:showcategory}
+    requirements:
+        _method: GET
+        id: \d+
+        
