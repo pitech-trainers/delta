@@ -5,6 +5,7 @@
     "description": "The \"Symfony Standard Edition\" distribution",
     "autoload": {
         "psr-0": {"": "src/"}
+
     },
     "require": {
         "php": ">=5.3.3",
@@ -23,7 +24,8 @@
         "knplabs/knp-menu-bundle": "2.0.*@dev",
         "doctrine/data-fixtures": "dev-master",
         "doctrine/doctrine-fixtures-bundle": "2.2.*",
-        "hautelook/alice-bundle": "0.1.*"
+        "hautelook/alice-bundle": "0.1.*",
+	"friendsofsymfony/user-bundle": "~2.0@dev"
 
     },
     "scripts": {

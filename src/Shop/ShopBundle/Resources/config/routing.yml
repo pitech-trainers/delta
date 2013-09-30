@@ -15,4 +15,4 @@ shop_shop_categorypage:
     requirements:
         _method: GET
         id: \d+
-        
+
