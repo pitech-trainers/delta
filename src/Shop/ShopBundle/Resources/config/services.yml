@@ -5,8 +5,10 @@ services:
 #    shop_shop.example:
 #        class: %shop_shop.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
+
     acme_user.registration.form.type:
         class: Shop\ShopBundle\Form\Type\RegistrationFormType
         arguments: [%fos_user.model.user.class%]
         tags:
             - { name: form.type, alias: shop_user_registration }
+

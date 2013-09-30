@@ -4,62 +4,20 @@
     <div class="main">
         <div class="col-wrapper">
             <div class="col-main">
-                <div class="box best-selling">
-                    <h3>Latest Products</h3>
-                    {#
-                    <table cellspacing="0" border="0">
-                        <tbody>
-                            
-                            <tr class="even">
-                                <td>
-                                    <a href="">
-                                        <img width="95" alt="" src="" class="product-img">
-                                    </a>
-                                    <div class="product-description">
-                                        <p><a href=""></a></p>
-                                        <p>See all <a href=""></a></p>
-                                    </div>
-                                </td>
-                                <td>
-                                    <a href="">
-                                        <img width="95" alt="" src="" class="product-img">
-                                    </a>
-                                    <div class="product-description">
-                                        <p><a href=""></a></p>
-                                        <p>See all <a href=""></a></p>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="odd">          
-                                <td>
-                                    <a href="">
-                                        <img width="95" alt="" src="" class="product-img">
-                                    </a>
-                                    <div class="product-description">
-                                        <p><a href=""></a></p>
-                                        <p>See all <a href=""></a></p>
-                                    </div>
-                                </td>
-                                <td>
-                                    <a href="">
-                                        <img width="95" alt="" src="" class="product-img">
-                                    </a>
-                                    <div class="product-description">
-                                        <p><a href="">
-                                            </a></p>
-                                        <p>See all <a href=""></a></p>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tr>
-                        </tbody>
-                    </table>
-                    #}
-                </div>
             </div>
             <div class="col-left sidebar"></div>
         </div>
     </div>
+    <div class="col-right sidebar">
+        <div class="block block-cart">
+            <div class="block-title">
+                <strong><span>My Cart</span></strong>
+            </div>
+            <div class="block-content">
+                <p class="empty">You have no items in your shopping cart.</p>
+            </div>
+        </div>
+
+    </div>
 </div>
-       {# cart gadget #}
 {% endblock %}

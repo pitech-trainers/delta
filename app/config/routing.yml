@@ -1,3 +1,4 @@
+
 shop_user:
     resource: "@ShopShopBundle/Resources/config/routing.yml"
     prefix:   /
@@ -5,7 +6,7 @@ shop_user:
 shop_shop:
     resource: "@ShopShopBundle/Resources/config/routing.yml"
     prefix:   /
-
+    
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
