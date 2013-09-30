@@ -1,0 +1,43 @@
+{% trans_default_domain 'FOSUserBundle' %}
+<div class="main-container col1-layout">
+    <div class="main">
+        <div class="col-main">
+            <div class="account-create">
+                <form action="{{ path('fos_user_resetting_reset', {'token': token}) }}" {{ form_enctype(form) }} method="POST" class="fos_user_resetting_reset">
+                    <div class="fieldset">
+                        <h2 class="legend">Change password</h2>
+                        <div>
+                                {% if invalid_username is defined %}
+                                <p>{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}) }}</p>
+                                {% endif %}
+                                <fieldset>
+                                    <h4>Please enter your new password below:</h4>
+                                    <ul class="form-list"> 
+                                        <li>    
+                                            <div class="input-box">
+                                    {{form_label(form.plainPassword['first']) }}
+                                    {{form_widget(form.plainPassword['first'], { 'attr': {'class': 'input-text required-entry validate-password'} }) }}
+
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="input-box">
+                                    {{form_label(form.plainPassword['second']) }}
+                                    {{form_widget(form.plainPassword['second'], { 'attr': {'class': 'input-text required-entry validate-password'} }) }}
+                                                    </div>
+                                                </li>
+                                                {{form_rest(form)}}
+                                        </fieldset>
+
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="buttons-set">
+                                        <input type="submit" name="reset" class="button" value="{{ 'resetting.reset.submit'|trans }}" /><span><span>Change password</span></span></button> 
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
