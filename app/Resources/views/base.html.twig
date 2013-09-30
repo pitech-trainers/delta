@@ -23,59 +23,70 @@
                                             <label for="search">Search:</label>
                                             <input id="search" onkeyup="showResult(this.value)" type="text" name="search" class="input-text" maxlength="128" />
                                             <button type="submit" title="Search" class="button"><span><span>Search!</span></span></button>
-                                        {#  <div id="livesearch"></div> #}
+                                            {#  <div id="livesearch"></div> #}
                                                     </div>
                                                 </form>
-
-                                                <p class="welcome-msg">Welcome !</p>
+                                                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                                <p class="welcome-msg">Welcome   {{app.user.username}} !</p>
+                                                {%else%}
+                                                 <p class="welcome-msg">Welcome guest !</p>
+                                                {% endif %}
                                                 <ul class="links">
-                                                    <li class="first" ><a href="" title="My Account" >My Account</a></li>
-                                                    <li class="first" ><a href="" title="Login" >Login</a></li>
-                                                    <li ><a href="" title="My Cart" class="top-link-cart">My Cart</a></li>
-                                                    <li ><a href="" title="Checkout" class="top-link-checkout">Checkout</a></li>
-                                                    <li class="last" ><a href="" title="" class="top-link-checkout">Logout</a></li>
-                                                </ul>
+                                              {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                              {#  {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |#}
+                                                        <li class="first" ><a href="{{ path('fos_user_profile_show') }}" title="My Account" >Dashboard</a></li>
+                                                        <li><a href="" title="My Cart" class="top-link-cart">My Cart</a></li>
+                                                        <li><a href="" title="Checkout" class="top-link-checkout">Checkout</a></li>
+                                                        <li class="last"><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
+                                              {% else %}
+                                                            <li class="first"><a href="{{ path('fos_user_security_login') }}">Login</a> </li>
+                                                            <li class="last"><a href="" title="My Cart" class="top-link-cart">My Cart</a></li>
+                                              {% endif %}
 
-                                            </div>
-                                        </div>
+                                                            </ul>
+
+                                                        </div>
+                                                    </div>
                        {%endblock %}
-                                    </div>
+                                                </div>
                        {%block navigator%}
-                                    <div class="nav-container">
-                                        <ul id="nav">
-                                            <li class="level0 nav-1 level-top first">
-                                                <a href="" class="level-top" style="color:#d96708" ><span></span></a>
-                                                <a href="" class="level-top" ><span></span></a>
-                                                <a href="" class="level-top" ><span></span></a>
+                                                <div class="nav-container">
+                                                    <ul id="nav">
+                                                        <li class="level0 nav-1 level-top first">
+                                                            <a href="" class="level-top" style="color:#d96708" ><span></span></a>
+                                                            <a href="" class="level-top" ><span></span></a>
+                                                            <a href="" class="level-top" ><span></span></a>
 
-                                            </li>
+                                                        </li>
 
-                                        </ul>
-                                    </div>
+                                                    </ul>
+                                                </div>
                        {%endblock %}
+                                                
                                 {%block container%}
 
                                 {%endblock%}
+                                                  
                        {%block footer %}
-                                    <div class = "footer-container">
-                                        <div class = "footer">
-                                            <ul>
-                                                <li><a href = "#">About Us</a></li>
-                                                <li><a href = "#">Customer Service</a></li>
-                                                <li class = "last privacy"><a href = "#">Privacy Policy</a></li>
-                                            </ul>
-                                            <ul class = "links">
-                                                <li class = "first" ><a href = "#" title = "Site Map" >Site Map</a></li>
-                                                <li ><a href = "#" title = "Search Terms" >Search Terms</a></li>
-                                                <li ><a href = "#" title = "Orders and Returns" >Orders and Returns</a></li>
-                                                <li class = " last" ><a href = "#" title = "Contact Us" >Contact Us</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                                                    <div class = "footer-container">
+                                                        <div class = "footer">
+                                                            <ul>
+                                                                <li><a href = "#">About Us</a></li>
+                                                                <li><a href = "#">Customer Service</a></li>
+                                                                <li class = "last privacy"><a href = "#">Privacy Policy</a></li>
+                                                            </ul>
+                                                            <ul class = "links">
+                                                                <li class = "first" ><a href = "#" title = "Site Map" >Site Map</a></li>
+                                                                <li ><a href = "#" title = "Search Terms" >Search Terms</a></li>
+                                                                <li ><a href = "#" title = "Orders and Returns" >Orders and Returns</a></li>
+                                                                <li class = " last" ><a href = "#" title = "Contact Us" >Contact Us</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
                        {%endblock %}
-                                </div>
-                            </div>
+                                                </div>
+                                            </div>
         {% endblock %}
         {% block javascripts %}{% endblock %}
-                        </body>
-                    </html>
+                                        </body>
+                                    </html>
