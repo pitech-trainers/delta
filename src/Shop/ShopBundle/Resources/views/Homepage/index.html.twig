@@ -18,7 +18,8 @@
                                 <tr class="odd">
                                     <td>
                                         <a href="{{path ('shop_shop_productpage', {'id': product.id})}}">
-                                            <img width="95" alt="" src="{{product.path}}{{product.filename}}" class="product-img">
+                                           
+                                            <img width="95" alt="" src="{{asset ('bundles/shopshop/image/' ~ product.filename)}}" class="product-img">
                                         </a>
                                         <div class="product-description">
                                             <p><a href="{{path ('shop_shop_productpage', {'id': product.id})}}">{{ product.title }}</a></p>
@@ -30,7 +31,7 @@
                                     {% else%}
                                     <td>
                                         <a href="{{path ('shop_shop_productpage', {'id': product.id})}}">
-                                            <img width="95" alt="" src="{{product.path}}{{product.filename}}" class="product-img">
+                                            <img width="95" alt="" src="{{asset ('bundles/shopshop/image/' ~ product.filename)}}" class="product-img">
                                         </a>
                                         <div class="product-description">
                                             <p><a href="{{path ('shop_shop_productpage', {'id': product.id})}}">{{ product.title }}</a></p>
@@ -44,7 +45,7 @@
                                 <tr class="even">          
                                     <td>
                                         <a href="{{path ('shop_shop_productpage', {'id': product.id})}}">
-                                            <img width="95" alt="" src="{{product.path}}{{product.filename}}" class="product-img">
+                                            <img width="95" alt="" src="{{asset ('bundles/shopshop/image/' ~ product.filename)}}" class="product-img">
                                         </a>
                                         <div class="product-description">
                                             <p><a href="{{path ('shop_shop_productpage', {'id': product.id})}}">{{ product.title }}</a></p>
@@ -54,7 +55,7 @@
                                     {%else%}
                                     <td>
                                         <a href="{{path ('shop_shop_productpage', {'id': product.id})}}">
-                                            <img width="95" alt="" src="{{product.path}}{{product.filename}}" class="product-img">
+                                            <img width="95" alt="" src="{{asset ('bundles/shopshop/image/' ~ product.filename)}}" class="product-img">
                                         </a>
                                         <div class="product-description">
                                             <p><a href="{{path ('shop_shop_productpage', {'id': product.id})}}">{{ product.title }}</a></p>
