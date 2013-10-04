@@ -25,6 +25,20 @@ class ProductRepository extends EntityRepository
                   ->getResult();
         
     }
+         public function getProducts($cat_id)
+    {
+             if ($cat_id!=0){
+                  $qb = $this->createQueryBuilder('p')
+                ->select('p')
+                ->add('from','ShopShopBundle:Product p')
+                ->where('p.category_id='.$cat_id);
+
+                return $qb->getQuery()
+                  ->getResult();
+               
+             }
+
+    }
     
         public function getName($id)
     {
@@ -34,7 +48,7 @@ class ProductRepository extends EntityRepository
 
         if (false === is_null($limit))
             $qb->setMaxResults($limit);
-
+        
         return $qb->getQuery()
                   ->getResult();
 

@@ -65,7 +65,9 @@ class User extends BaseUser {
      * )
      */
     protected $mobile;
+    
 
+    
     public function __construct() {
         parent::__construct();
         // your own logic

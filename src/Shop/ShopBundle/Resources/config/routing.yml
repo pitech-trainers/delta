@@ -10,8 +10,8 @@ shop_shop_productpage:
         id: \d+
 
 shop_shop_categorypage:
-    pattern: /catid={id}
-    defaults: { _controller: ShopShopBundle:categoryPage:showcategory}
+    pattern: /catid={id}/{range}/{stock}
+    defaults: { _controller: ShopShopBundle:categoryPage:showcategory, range : "all",stock: "all"}
     requirements:
         _method: GET
         id: \d+

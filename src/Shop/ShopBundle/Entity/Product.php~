@@ -24,7 +24,7 @@ class Product {
     private $title;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Category", inversedBy="id")
+     * @ORM\ManyToOne(targetEntity="Category")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
     private $category_id;
@@ -298,17 +298,15 @@ class Product {
         return $this->active;
     }
 
-
     /**
      * Set path
      *
      * @param string $path
      * @return Product
      */
-    public function setPath($path)
-    {
+    public function setPath($path) {
         $this->path = $path;
-    
+
         return $this;
     }
 
@@ -317,8 +315,7 @@ class Product {
      *
      * @return string 
      */
-    public function getPath()
-    {
+    public function getPath() {
         return $this->path;
     }
 
@@ -328,10 +325,9 @@ class Product {
      * @param string $filename
      * @return Product
      */
-    public function setFilename($filename)
-    {
+    public function setFilename($filename) {
         $this->filename = $filename;
-    
+
         return $this;
     }
 
@@ -340,8 +336,9 @@ class Product {
      *
      * @return string 
      */
-    public function getFilename()
-    {
+    public function getFilename() {
         return $this->filename;
     }
+
+
 }

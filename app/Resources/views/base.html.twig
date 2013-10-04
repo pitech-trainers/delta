@@ -9,6 +9,7 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('bundles/shopshop/css/widgets.css') }}" media="all" />
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <script src ="/js/functions.js"></script>
     </head>
     <body>
         {% block body %}
@@ -23,7 +24,7 @@
                                             <label for="search">Search:</label>
                                             <input id="search" onkeyup="showResult(this.value)" type="text" name="search" class="input-text" maxlength="128" />
                                             <button type="submit" title="Search" class="button"><span><span>Search!</span></span></button>
-                                            {#  <div id="livesearch"></div> #}
+                                              <div id="livesearch"></div> 
                                                     </div>
                                                 </form>
                                                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
@@ -32,14 +33,15 @@
                                                  <p class="welcome-msg">Welcome guest !</p>
                                                 {% endif %}
                                                 <ul class="links">
+                                                    <li class="first"><a href="{{ path('shop_shop_homepage') }}" title="Home">Home</a> </li>
                                               {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                                               {#  {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |#}
-                                                        <li class="first" ><a href="{{ path('fos_user_profile_show') }}" title="My Account" >Dashboard</a></li>
+                                                        <li><a href="{{ path('fos_user_profile_show') }}" title="My Account" >Dashboard</a></li>
                                                         <li><a href="" title="My Cart" class="top-link-cart">My Cart</a></li>
                                                         <li><a href="" title="Checkout" class="top-link-checkout">Checkout</a></li>
                                                         <li class="last"><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
                                               {% else %}
-                                                            <li class="first"><a href="{{ path('fos_user_security_login') }}">Login</a> </li>
+                                                            <li><a href="{{ path('fos_user_security_login') }}" title="Login">Login</a> </li>
                                                             <li class="last"><a href="" title="My Cart" class="top-link-cart">My Cart</a></li>
                                               {% endif %}
 
@@ -53,8 +55,7 @@
                                                 <div class="nav-container">
                                                 <ul id="nav">
                                                 <li class="level-0 level-top">
-                                                <a href="{{ knp_menu_render('ShopShopBundle:Builder:mainMenu') }}" 
-                                                   class="level-top" style="color:#d96708" ></a>
+                                                <a href={{ knp_menu_render('ShopShopBundle:Builder:mainMenu') }}
                                                 </li>
                                         </ul>  
                                     </div>

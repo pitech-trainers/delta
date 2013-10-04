@@ -25,7 +25,8 @@
         "doctrine/data-fixtures": "dev-master",
         "doctrine/doctrine-fixtures-bundle": "2.2.*",
         "hautelook/alice-bundle": "0.1.*",
-	"friendsofsymfony/user-bundle": "~2.0@dev"
+	"friendsofsymfony/user-bundle": "~2.0@dev",
+ 	"knplabs/knp-paginator-bundle": "dev-master"
 
     },
     "scripts": {
