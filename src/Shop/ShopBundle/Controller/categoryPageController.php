@@ -3,6 +3,7 @@
 namespace Shop\ShopBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Shop\ShopBundle\Form\ProductType;
 
 class categoryPageController extends Controller
 {
@@ -28,14 +29,19 @@ class categoryPageController extends Controller
             $sql2="";
         }
         $em = $this->getDoctrine()->getManager();
+        $em->getRepository('ShopShopBundle:Product')->findAll();
+        $user=$this->container->get('security.context')->getToken()->getUser();
+        $cart=$em->getRepository('ShopShopBundle:Cart')->getGeneralCart($em,$user);
         $category = $em->getRepository('ShopShopBundle:Category')->find($id);
         $products = $em->createQuery("SELECT p FROM ShopShopBundle:Product p WHERE p.category_id=".$id.$sql1.$sql2);
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
                 $products, $this->get('request')->query->get('page', 1)/* page number */, 9/* limit per page */
         );
+        $form = $this->createForm(new ProductType());
+        
         return $this->render('ShopShopBundle:Category:category.html.twig', array(
-                    'category' => $category, 'id'=>$id, 'products'=> $pagination ,'range'=>$range,'stock'=>$stock
+                    'category' => $category, 'id'=>$id, 'products'=> $pagination ,'range'=>$range,'stock'=>$stock,'form'=> $form->createView(),'cart'=>$cart
         ));
        
     }

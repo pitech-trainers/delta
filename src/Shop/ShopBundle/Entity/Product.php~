@@ -3,6 +3,8 @@
 namespace Shop\ShopBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Shop\ShopBundle\Entity\Repository\ProductRepository")
@@ -15,7 +17,7 @@ class Product {
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    */
     private $id;
 
     /**
@@ -78,6 +80,8 @@ class Product {
      * @ORM\Column(type="string")
      */
     private $filename;
+    
+    private $quantity;
 
     /**
      * Get id
@@ -340,5 +344,29 @@ class Product {
         return $this->filename;
     }
 
+    /**
+     * Set quantity
+     *
+     * @param integer $quantity
+     * @return Product
+     */
+    public function setQuantity($quantity) {
+        $this->quantity = $quantity;
 
+        return $this;
+    }
+
+    /**
+     * Get quantity
+     *
+     * @return integer 
+     */
+    public function getQuantity() {
+        return $this->quantity;
+    }
+    public static function loadValidatorMetadata(ClassMetadata $metadata) {
+        $metadata->addPropertyConstraint('quantity', new Assert\Type(array('type' => 'integer', 'message' => 'the value {{value}} is not a number')));
+
+        $metadata->addPropertyConstraint('quantity', new Assert\GreaterThan(array('value' => 0, 'message' => 'cannot order a negative value')));
+    }
 }

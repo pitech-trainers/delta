@@ -1,0 +1,54 @@
+       {%if app.user %}
+        <div class="block block-cart">
+            <div class="block-title">
+                <strong><span>My Cart</span></strong>
+            </div>
+            <div class="block-content">
+                <div class="summary">
+                    <p class="amount">There are <a href="">{{nritems}}</a> item(s) in your cart.</p>
+                    <p class="subtotal">
+                        <span class="label">Cart Subtotal:</span> <span class="price">{{carttotal}} US$</span>
+                    </p>
+                </div>
+
+
+                <div class="actions">
+                </div>
+                <p class="block-subtitle">Recently added item(s)</p>
+                {%for item in latestitems%}
+                {%if( item.catid) %} 
+
+                <ol id="cart-sidebar" class="mini-products-list">
+
+                    <li class="item">
+                        <a href="{{path ('shop_shop_productpage', {'catid' : item.catid , 'id': item.id})}}" title="{{item.title}}" class="product-image">
+                            <img src="{{asset ('bundles/shopshop/image/' ~ item.filename)}}" width="50" height="50" alt="{{item.title}}" />
+                        </a>
+                        <div class="product-details">
+                            <a href="{{path ('shop_shop_removeitem', {'id': item.id})}}"  title="Remove This Item" class="btn-remove">Remove This Item</a>
+                            <a href="" title="Edit item" class="btn-edit">Edit item</a>
+                            <p class="product-name"><a href=""></a></p>
+                            <strong></strong> 
+                            <span class="price"> {%set total = item.price*item.quantity%}{{total}}({{item.price}} x {{item.quantity}}) US$ </span>
+                        </div>
+                    </li>
+                </ol>
+                 {%endif%} 
+               {%endfor%}
+            </div>
+        </div>
+   
+       {%else%}
+  
+        <div class="block block-cart">
+            <div class="block-title">
+                <strong><span>My Cart</span></strong>
+            </div>
+            <div class="block-content">
+                <p class="empty">You have no items in your shopping cart.</p>
+            </div>
+        </div>
+
+
+      {%endif%}
+   

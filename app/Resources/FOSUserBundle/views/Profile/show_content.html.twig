@@ -1,5 +1,4 @@
 {% trans_default_domain 'FOSUserBundle' %}
-
  <div class="main-container col2-left-layout">
                     <div class="main">
                         <div class="col-main">
@@ -19,6 +18,8 @@
                                             <h2>Recent Orders</h2>
                                             <a href="#">View All</a>
                                         </div>
+                                        {#   
+                                        {% if orders%}    
                                         <table class="data-table" id="my-orders-table">
                                             <col width="1" />
                                             <col width="1" />
@@ -51,6 +52,9 @@
                                                 </tr>
                                             </tbody>
                                         </table>
+                                        {% endif %}
+                                        #}
+                                        There are no placed orders.
                                     </div>
                                     <div class="box-account box-info">
                                         <div class="box-head">
@@ -61,12 +65,12 @@
                                                 <div class="box">
                                                     <div class="box-title">
                                                         <h3>Contact Information</h3>
-                                                        <a href="#">Edit</a>
+                                                        <a href="{{path('fos_user_profile_edit')}}">Edit</a>
                                                     </div>
                                                     <div class="box-content">
                                                         <p>
-                                                            John Doe<br />
-                                                            jdoe@email.com<br />
+                                                            {{user.firstName }} {{user.lastName}}<br />
+                                                            {{user.email}}<br />
                                                         </p>
                                                     </div>
                                                 </div>
@@ -79,28 +83,34 @@
                                                 </div>
                                                 <div class="box-content">
                                                     <div class="col-1">
+                                                        {% if user.billingAddress%}
                                                         <h4>Billing Address</h4>
                                                         <address>
-                                                            John Doe<br />
-                                                            asd<br />
-                                                            asd,  Alaska, asd<br />
-                                                            United States<br />
-                                                            T: 123123
-                                                            <br />
-                                                            <a href="#">Edit Address</a>
+                                                            {{user.billingAddress.firstname}}{{user.billingAddress.lastname}}<br />
+                                                            {{user.billingAddress.city}},{{user.billingAddress.address}}<br />
+                                                            {{user.billingAddress.country}}<br />
+                                                            T: {{user.mobile}}  
                                                         </address>
+                                                        {%else%}
+                                                        There is no adress set.
+                                                        {%endif%}
+                                                        <br />
+                                                            <a href="{{path('shop_shop_billing')}}">Edit Address</a>
                                                     </div>
-                                                    <div class="col-2">
+                                                    <div class="col-1">
+                                                        {% if user.shippingAddress%}
                                                         <h4>Shipping Address</h4>
                                                         <address>
-                                                            John Doe<br />
-                                                            asd<br />
-                                                            asd,  Alaska, asd<br />
-                                                            United States<br />
-                                                            T: 321312
-                                                            <br />
-                                                            <a href="#">Edit Address</a>
+                                                            {{user.shippingAddress.firstname}}{{user.shippingAddress.lastname}}<br />
+                                                            {{user.shippingAddress.city}},{{user.shippingAddress.address}}<br />
+                                                            {{user.shippingAddress.country}}<br />
+                                                            T: {{user.mobile}}  
                                                         </address>
+                                                        {%else%}
+                                                        There is no adress set.
+                                                        {%endif%}
+                                                        <br />
+                                                            <a href="{{path('shop_shop_shipping')}}">Edit Address</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -110,21 +120,16 @@
                             </div>
                         </div>
                         <div class="col-left sidebar">
-                            <div class="block block-account">
-                                <div class="block-title">
-                                    <strong><span>My Account</span></strong>
-                                </div>
-                                <div class="block-content">
-                                    <ul>
-                                        <li class="current"><strong>Account Dashboard</strong></li>
-                                        <li><a href="#">Account Information</a></li>
-                                        <li><a href="#">My Orders</a></li>
-                                        <li><a href="#">Billing address</a></li>
-                                        <li class="last"><a href="#">Shipping address</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="block block-cart">
+            <div class="block block-account">
+                <div class="block-title">
+                    <strong><span>My Account</span></strong>
+                </div>
+                <div class="block-content">
+                    {% set menuItem = knp_menu_get('ShopShopBundle:Builder:accountMenu') %}
+                        {{ knp_menu_render(menuItem) }}
+                </div>
+            </div>
+            <div class="block block-cart">
                                 <div class="block-title">
                                     <strong><span>My Cart</span></strong>
                                 </div>
@@ -132,6 +137,6 @@
                                     <p class="empty">You have no items in your shopping cart.</p>
                                 </div>
                             </div>
-                        </div>
+        </div>
                     </div>
                 </div>

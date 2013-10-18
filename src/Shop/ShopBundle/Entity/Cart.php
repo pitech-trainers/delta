@@ -1,44 +1,47 @@
 <?php
-
 namespace Shop\ShopBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="Shop\ShopBundle\Entity\Repository\ProductRepository")
+ * @ORM\Entity(repositoryClass="Shop\ShopBundle\Entity\Repository\CartRepository")
  * @ORM\Table(name="cart")
- * @ORM\HasLifecycleCallbacks()
  */
-class Cart {
-
+class Cart
+{
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
-
+    protected $id;
+    
     /**
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User", cascade={"persist"})
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     **/
+    protected $user;
+       /**
+     * @ORM\Column(type="integer")
      */
-    private $user_id;
-
-    /**
-     * @ORM\Column(type="datetime")
+    protected $date;
+    
+       /**
+     * @ORM\Column(type="integer")
      */
-    private $date;
-
-    /**
-     * @ORM\Column(type="boolean")
+    protected $active;
+       /**
+     * @ORM\Column(type="integer")
      */
-    private $active;
-
-    /**
-     * @ORM\Column(type="decimal")
+    protected $total;
+ 
+ 
+   /**
+     * @ORM\OneToMany(targetEntity="CartItem", mappedBy="cart", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private $total;
-
+    protected $cart_items;
+    
+    
 
     /**
      * Get id
@@ -51,9 +54,32 @@ class Cart {
     }
 
     /**
+     * Set user_id
+     *
+     * @param integer $userId
+     * @return Cart
+     */
+    public function setUserId($userId)
+    {
+        $this->user = $userId;
+    
+        return $this;
+    }
+
+    /**
+     * Get user_id
+     *
+     * @return integer 
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    /**
      * Set date
      *
-     * @param \DateTime $date
+     * @param integer $date
      * @return Cart
      */
     public function setDate($date)
@@ -66,7 +92,7 @@ class Cart {
     /**
      * Get date
      *
-     * @return \DateTime 
+     * @return integer 
      */
     public function getDate()
     {
@@ -76,7 +102,7 @@ class Cart {
     /**
      * Set active
      *
-     * @param boolean $active
+     * @param integer $active
      * @return Cart
      */
     public function setActive($active)
@@ -89,7 +115,7 @@ class Cart {
     /**
      * Get active
      *
-     * @return boolean 
+     * @return integer 
      */
     public function getActive()
     {
@@ -99,7 +125,7 @@ class Cart {
     /**
      * Set total
      *
-     * @param float $total
+     * @param string $total
      * @return Cart
      */
     public function setTotal($total)
@@ -112,33 +138,74 @@ class Cart {
     /**
      * Get total
      *
-     * @return float 
+     * @return string 
      */
     public function getTotal()
     {
         return $this->total;
     }
-
     /**
-     * Set user_id
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->cart_items = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add cart_items
      *
-     * @param \Shop\ShopBundle\Entity\User $userId
+     * @param \Shop\ShopBundle\Entity\CartItem $cartItems
      * @return Cart
      */
-    public function setUserId(\Shop\ShopBundle\Entity\User $userId = null)
+    public function addCartItem(\Shop\ShopBundle\Entity\CartItem $cartItems)
     {
-        $this->user_id = $userId;
+        $this->cart_items[] = $cartItems;
     
         return $this;
     }
 
     /**
-     * Get user_id
+     * Remove cart_items
+     *
+     * @param \Shop\ShopBundle\Entity\CartItem $cartItems
+     */
+    public function removeCartItem(\Shop\ShopBundle\Entity\CartItem $cartItems)
+    {
+        $this->cart_items->removeElement($cartItems);
+    }
+
+    /**
+     * Get cart_items
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCartItems()
+    {
+        return $this->cart_items;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Shop\ShopBundle\Entity\User $user
+     * @return Cart
+     */
+    public function setUser(\Shop\ShopBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+    
+        return $this;
+    }
+
+    /**
+     * Get user
      *
      * @return \Shop\ShopBundle\Entity\User 
      */
-    public function getUserId()
+    public function getUser()
     {
-        return $this->user_id;
+        return $this->user;
     }
+
 }

@@ -22,7 +22,6 @@ function loadCart(id, qty)
 
         }
     }
-
     xmlhttp.open("POST", "/cart/addToCartAjax", true);
     xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xmlhttp.send("id=" + id + "&qty=" + qty);
@@ -54,7 +53,7 @@ function showResult(str)
         }
     }
 
-    xmlhttp.open("POST", "/category/search", true);
+    xmlhttp.open("POST", "/default/search", true);
     xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xmlhttp.send("search=" + str);
 }

@@ -37,7 +37,7 @@
                                               {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                                               {#  {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |#}
                                                         <li><a href="{{ path('fos_user_profile_show') }}" title="My Account" >Dashboard</a></li>
-                                                        <li><a href="" title="My Cart" class="top-link-cart">My Cart</a></li>
+                                                        <li><a href="{{path('shop_shop_cartPage')}}" title="My Cart" class="top-link-cart">My Cart</a></li>
                                                         <li><a href="" title="Checkout" class="top-link-checkout">Checkout</a></li>
                                                         <li class="last"><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
                                               {% else %}

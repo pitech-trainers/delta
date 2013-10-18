@@ -1,0 +1,173 @@
+{% extends 'ShopShopBundle::bundle-layout.html.twig' %}
+{%block container%}
+<div class="main-container col1-layout">
+    <div class="main">
+        <div class="col-main">
+            <div class="cart">
+                <div class="page-title title-buttons">
+                    <h1>Shopping Cart</h1>
+                    <ul class="checkout-types">
+                        <li>
+                            <button type="button" title="Proceed to Checkout" class="button btn-proceed-checkout btn-checkout"
+                                    onclick="" ><span><span>Proceed to Checkout</span></span></button>
+                        </li>
+                    </ul>
+                </div>
+                    {%for product in cart.getcartItems%}
+                    {{dump(product.id)}}
+                    
+                <form action="{{path('shop_shop_updateCart', {'id' : product.id})}}" method="post">
+                    {%endfor%}
+                    <fieldset>
+                        <table id="shopping-cart-table" class="data-table cart-table">
+                            <colgroup>
+                                <col width="1" />
+                                <col />
+                                <col width="1" />
+                                <col width="1" />
+                                <col width="1" />
+                                <col width="1" />
+                                <col width="1" />
+                            </colgroup>
+                            <thead>
+                                <tr class="first last">
+                                    <th rowspan="1">&nbsp;</th>
+                                    <th rowspan="1"><span class="nobr">Product Name</span></th>
+                                    <th class="a-center" colspan="1"><span class="nobr">Unit Price</span></th>
+                                    <th rowspan="1" class="a-center">Qty</th>
+                                    <th class="a-center" colspan="1">Subtotal</th>
+                                    <th rowspan="1" class="a-center">&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr class="first last">
+                                    <td colspan="50" class="a-right last">
+                                        <button type="button" title="Continue Shopping" class="button btn-continue"
+                                                onclick="" >
+                                            <span><span>Continue Shopping</span></span></button>
+                                        <button type="submit" name="update" value="update_qty" title="Update Shopping Cart" class="button btn-update">
+                                            <span><span>Update Shopping Cart</span></span></button>
+                                        <button type="submit" name="clear" value="empty_cart" title="Clear Shopping Cart" class="button btn-empty" id="empty_cart_button"
+                                                >
+                                            <span><span>Clear Shopping Cart</span></span></button>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                {%if cart.getcartitems.snapshot%}
+                                {%for product in cart.getcartItems%}
+                                        {% if loop.index % 2 !=0 %}
+                                        <tr class="first odd">
+                                            <td>
+                                                <a href="{{path ('shop_shop_productpage', {'id' : product.getProductId.categoryid.id , 'productid':  product.getProductId.id})}}" title="{{ product.getProductId.title}}" 
+                                                   class="product-image"><img src="{{asset ('bundles/shopshop/image/' ~  product.getProductId.filename)}}"
+                                                                           alt="{{ product.getProductId.title}}" height="75" width="75" />
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <h2 class="product-name">
+                                                    <a href="{{path ('shop_shop_productpage', {'id' : product.getProductId.categoryid.id , 'productid':  product.getProductId.id})}}">{{ product.getProductId.title}}</a>
+                                                </h2>
+                                                <dl class="item-options">
+                                                    <dt></dt>
+                                                </dl>
+                                            </td>
+                                            <td class="a-right">
+                                                <span class="cart-price">
+                                                    <span class="price">{{product.getPrice}}$</span>
+                                                </span>
+                                            </td>
+                                            <td class="a-center">
+                                                <input name="id" type="hidden" value = "{{product.id}}"/>
+                                                <input name="quantity" id="{{loop.index}}" value="{{product.getQuantity}}" size="4" title="Qty" class="input-text qty" maxlength="2" />
+                                            </td>
+                                            <td class="a-right">
+                                                <span class="cart-price">
+                                                    <span class="price">{{product.getPrice * product.getQuantity}} $</span>
+                                                </span>
+                                            </td>
+                                            <td class="a-center last">
+                                                <a href="{{path ('shop_shop_removeitem', {'id' : product.getId})}}"
+                                                   title="Remove item" class="btn-remove btn-remove2">Remove item</a>
+                                            </td>
+                                        </tr>
+                                    <input type="hidden" name="cart_id" value="{{cart.id}}" />
+
+                                    {%else%}
+
+                                    <tr class="last even">
+                                        <td>
+                                                <a href="{{path ('shop_shop_productpage', {'id' : product.getProductId.categoryid.id , 'productid':  product.getProductId.id})}}" title="{{ product.getProductId.title}}" 
+                                                   class="product-image"><img src="{{asset ('bundles/shopshop/image/' ~  product.getProductId.filename)}}"
+                                                                           alt="{{ product.getProductId.title}}" height="75" width="75" />
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <h2 class="product-name">
+                                                    <a href="{{path ('shop_shop_productpage', {'id' : product.getProductId.categoryid.id , 'productid':  product.getProductId.id})}}">{{ product.getProductId.title}}</a>
+                                                </h2>
+                                                <dl class="item-options">
+                                                    <dt></dt>
+                                                </dl>
+                                            </td>
+                                            <td class="a-right">
+                                                <span class="cart-price">
+                                                    <span class="price">{{product.getPrice}} $</span>
+                                                </span>
+                                            </td>
+                                            <td class="a-center">
+                                                <input name="id" type="hidden" value = "{{product.id}}"/>
+                                                <input name="quantity" id="{{loop.index}}" value="{{product.getQuantity}}" size="4" title="Qty" class="input-text qty" maxlength="2" />
+                                            </td>
+                                            <td class="a-right">
+                                                <span class="cart-price">
+                                                    <span class="price">{{product.getPrice * product.getQuantity}} $</span>
+                                                </span>
+                                            </td>
+                                            <td class="a-center last">
+                                                <a href="{{path ('shop_shop_removeitem', {'id' : product.getId})}}"
+                                                   title="Remove item" class="btn-remove btn-remove2">Remove item</a>
+                                            </td>
+                                   </tr>
+                                    <input type="hidden" name="cart_id" value="{{cart.id}}" />
+                                {%endif%}   
+                                {%endfor%}
+                                {%endif%}    
+                            </tbody>
+                        </table>
+                    </fieldset>          
+                </form>
+                
+                <div class="cart-collaterals">
+                    <div class="totals">
+                        <table id="shopping-cart-totals-table">
+                            <colgroup>
+                                <col />
+                                <col width="1" />
+                            </colgroup>
+                            <tfoot>
+                                <tr>
+                                    <td style="" class="a-right" colspan="1">
+                                        <strong>Grand Total</strong>
+                                    </td>
+                                    <td style="" class="a-right">
+                                        <strong><span class="price"> {{cart.gettotal}} $</span></strong>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <ul class="checkout-types">
+                            <li>
+                                <button type="button" title="Proceed to Checkout" class="button btn-proceed-checkout btn-checkout" 
+                                        onclick="" ><span><span>Proceed to Checkout</span></span></button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+{%endblock%}

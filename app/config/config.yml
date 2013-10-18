@@ -73,13 +73,15 @@ fos_user:
         mailer: fos_user.mailer.twig_swift
     registration:
         form:
-            type: shop_user_registration
-            
+            type: shop_user_registration       
         confirmation:
             enabled:    true
             from_email:
                 address:        registration@acmedemo.com
                 sender_name:    Acme Demo Registration
+    profile:
+      form:
+        type: shop_user_profile
     resetting:
         email:
             from_email:

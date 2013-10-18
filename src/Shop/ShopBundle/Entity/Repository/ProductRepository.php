@@ -3,6 +3,8 @@
 namespace Shop\ShopBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
+
 
 /**
  * ProductRepository
@@ -52,6 +54,22 @@ class ProductRepository extends EntityRepository
         return $qb->getQuery()
                   ->getResult();
 
+    }
+    
+        public function getRandom($catid) {
+        $rsm = new ResultSetMapping();
+        $rsm->addEntityResult('Shop\ShopBundle\Entity\Product', 'p');
+        $rsm->addFieldResult('p', 'id', 'id'); // ($alias, $columnName, $fieldName)
+        $rsm->addFieldResult('p', 'title', 'title'); // ($alias, $columnName, $fieldName)
+        $rsm->addFieldResult('p', 'price', 'price'); // ($alias, $columnName, $fieldName)
+        $rsm->addFieldResult('p', 'path', 'path'); // ($alias, $columnName, $fieldName)
+        $rsm->addFieldResult('p', 'filename', 'filename'); // ($alias, $columnName, $fieldName)
+
+        $qb = $this->_em->createNativeQuery('SELECT * from products where category_id = ? ORDER BY RAND() LIMIT 4', $rsm);
+        $qb->setParameter(1, $catid);
+        $result = $qb->getResult();
+
+        return $result;
     }
     
     

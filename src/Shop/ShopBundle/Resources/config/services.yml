@@ -11,4 +11,15 @@ services:
         arguments: [%fos_user.model.user.class%]
         tags:
             - { name: form.type, alias: shop_user_registration }
-
+            
+    acme_user.profile.form.type:
+        class: Shop\ShopBundle\Form\Type\ProfileFormType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: shop_user_profile }
+    
+    shop.login.event.listener:
+      class: Shop\ShopBundle\EventListener\LoginListener
+      arguments: ["@doctrine"]
+      tags:
+        - { name: kernel.event_listener, event: security.interactive_login, method: onLogin }        

@@ -3,6 +3,7 @@
 namespace Shop\ShopBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Shop\ShopBundle\Entity\Repository\AdressRepository")
@@ -20,26 +21,61 @@ class Address {
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="Please enter your name.")
+     * @Assert\Length(
+     *     min=3,
+     *     max="20",
+     *     minMessage="The name is too short.",
+     *     maxMessage="The name is too long."
+     * )
      */
     private $address;
     
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="Please enter your name.")
+     * @Assert\Length(
+     *     min=3,
+     *     max="20",
+     *     minMessage="The name is too short.",
+     *     maxMessage="The name is too long."
+     * )
      */
     private $city;
     
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="Please enter your name.")
+     * @Assert\Length(
+     *     min=3,
+     *     max="20",
+     *     minMessage="The name is too short.",
+     *     maxMessage="The name is too long."
+     * )
      */
     private $country;
     
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="Please enter your name.")
+     * @Assert\Length(
+     *     min=3,
+     *     max="20",
+     *     minMessage="The name is too short.",
+     *     maxMessage="The name is too long."
+     * )
      */
     private $firstname;
     
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="Please enter your name.")
+     * @Assert\Length(
+     *     min=3,
+     *     max="20",
+     *     minMessage="The name is too short.",
+     *     maxMessage="The name is too long."
+     * )
      */
     private $lastname;
     

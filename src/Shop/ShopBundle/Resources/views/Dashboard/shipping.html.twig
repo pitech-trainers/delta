@@ -1,0 +1,91 @@
+{% extends 'ShopShopBundle::bundle-layout.html.twig' %}
+{%block container%}
+<div class="main-container col2-left-layout">
+    <div class="main">
+        <div class="col-main">
+            <div class="account-create">
+                <div class="page-title">
+                    <h1>Account Information</h1>
+                </div>
+                <form action="{{ path('shop_shop_shipping') }}" {{ form_enctype(form) }} method="POST" class="address_form_type">
+                    <div class="fieldset">
+                        <h2 class="legend">Shipping address</h2>
+                        {{ form_errors(form) }}
+                        <ul class="form-list">
+                            <li class="fields">
+                                <div class="customer-name">
+                                    <div class="field name-firstname">
+                                            {{ form_label(form.firstname) }}
+                                            <div class="input-box">
+                                                {{ form_widget(form.firstname, { 'attr': {'class': 'input-text required-entry'} }) }}
+                                                </div>
+                                            </div>
+                                            <div class="field name-lastname">
+                                            {{ form_label(form.lastname) }}
+                                                    <div class="input-box">
+                                                {{ form_widget(form.lastname, { 'attr': {'class': 'input-text required-entry'} }) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="field">
+                                                    {{ form_label(form.email) }}
+                                                    <div class="input-box">
+                                                        {{ form_widget(form.email, { 'attr': {'class': 'input-text validate-email required-entry'} }) }}
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="wide">
+                                                <div class="field">
+                                                    {{ form_label(form.address) }}
+                                                    <div class="input-box">
+                                                        {{ form_widget(form.address, { 'attr': {'class': 'input-text  required-entry'} }) }}
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="fields">
+                                <div class="customer-name">
+                                    <div class="field name-firstname">
+                                            {{ form_label(form.city) }}
+                                            <div class="input-box">
+                                                {{ form_widget(form.city, { 'attr': {'class': 'input-text required-entry'} }) }}
+                                                </div>
+                                            </div>
+                                            <div class="field name-lastname">
+                                            {{ form_label(form.country) }}
+                                                    <div class="input-box">
+                                                {{ form_widget(form.country, { 'attr': {'class': 'input-text required-entry'} }) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    {{form_rest(form)}}
+                                    <div class="buttons-set">
+                                        <p class="required">* Required Fields</p>
+                                        <button type="submit" title="Submit" class="button"><span><span>Submit</span></span></button>
+                                    </div>
+                                </form>
+            </div>
+        </div>
+        <div class="col-left sidebar">
+            <div class="block block-account">
+                <div class="block-title">
+                    <strong><span>My Account</span></strong>
+                </div>
+                <div class="block-content">
+                    {% set menuItem = knp_menu_get('ShopShopBundle:Builder:accountMenu') %}
+                        {{ knp_menu_render(menuItem) }}
+                </div>
+            </div>
+            <div class="block block-cart">
+                        
+            
+                            
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

@@ -22,5 +22,25 @@ class DefaultController extends Controller {
                     'products' => $products
         ));
     }
+    public function searchAction($txt) {
+
+        $em = $this->getDoctrine()->getManager();
+        $products = $em->createQuery("SELECT p FROM ShopShopBundle:Product p WHERE p.title like %".$txt."%");
+        
+        $x = empty($products);
+        if ($x) {
+            $response = "No suggestion" ."</br>";
+            echo $response;
+        }
+
+        foreach ($products as $prod) {
+            $response = "<li> <a href=". url("product/prodInfo", array("pid"=>$prod->getId())) . "><h6>".  $prod->getTitle(). "</h6></a></li>";
+            echo $response."</br>";
+        }
+        
+    }
+    
+
+       
 
 }

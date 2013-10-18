@@ -1,231 +1,324 @@
-
 {% extends 'ShopShopBundle::bundle-layout.html.twig' %}
 {%block container%}
 
- <div class="main-container col3-layout">
-                    <div class="main">
-                        <div class="breadcrumbs">
+<div class="main-container col3-layout">
+    <div class="main">
+        <div class="breadcrumbs">
+            <ul>
+                <li class="home">
+                    <a href="{{ path('shop_shop_homepage') }}" title="Go to Home Page">Home</a>
+                    <span>/ </span>
+                </li>
+                <li class="category35">
+                    <strong>{{category.categoryName}}</strong>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-wrapper">
+            <div class="col-main">
+                                {% for flashMessage in app.session.flashbag.get('notice-failure') %}
+                <div id="messages_product_view">
+                    <ul class="messages">
+                        <li class="error-msg">
                             <ul>
-                                <li class="home">
-                                    <a href="{{ path('shop_shop_homepage') }}" title="Go to Home Page">Home</a>
-                                    <span>/ </span>
-                                </li>
-                                <li class="category35">
-                                    <strong>{{category.categoryName}}</strong>
-                                </li>
+                                <li><span>{{flashMessage}}</span></li>
                             </ul>
-                        </div>
+                        </li>
+                    </ul>
+                </div>
+                {% endfor %}
 
-                        <div class="col-wrapper">
-                            <div class="col-main">
-                                <div class="page-title category-title">
-                                    <h1>{{category.categoryName}}</h1>
-                                </div>
+                {% for flashMessage in app.session.flashbag.get('notice-success') %}
+                <div id="messages_product_view">
+                    <ul class="messages">
+                        <li class="success-msg">
+                            <ul>
+                                <li><span>{{flashMessage}}</span></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                {% endfor %}
+                <div class="page-title category-title">
+                    <h1>{{category.categoryName}}</h1>
+                </div>
 
-                                <div class="category-products">
-                                    <div class="toolbar">
-                                        <div class="pager">
-                                                <p class="amount">
-                                                    <strong>{{ products.getTotalItemCount()}} Item(s)</strong>
-                                                </p>
-                                                <div class="pages">
-                                                    <ol>
+                <div class="category-products">
+                    <div class="toolbar">
+                        <div class="pager">
+                            <p class="amount">
+                                <strong>{{ products.getTotalItemCount()}} Item(s)</strong>
+                            </p>
+                            <div class="pages">
+                                <ol>
                                                     {{ knp_pagination_render(products) }}
-                                                    </ol>
-                                                </div>
-                                            </div>
-                                            
+                                    </ol>
+                                </div>
+                            </div>
 
-                                        <div class="sorter">
-                                            <div class="sort-by">
-                                                    Sort by:
-                                                    <th>{{ knp_pagination_sortable(products, 'Title', 'p.title') }}</th>
-                                                    <th>{{ knp_pagination_sortable(products, 'Price', 'p.price') }}</th>
-                                            </div>
-                                        </div>
-                                    </div>                                     
-                                        {% for product in products %}
-                                        {%if loop.index % 3 == 0 %}
-                                        <li class="item">
-                                            <a href="{{path ('shop_shop_productpage', {'id': product.id})}}" title="{{ product.title}}" class="product-image">
-                                                <img src="{{asset ('bundles/shopshop/image/' ~ product.filename)}}" width="135" height="135"/>
-                                            </a>
 
-                                            <h2 class="product-name">
-                                                <a href="{{path ('shop_shop_productpage', {'id': product.id})}}" title="{{ product.title}}"> {{ product.title}}</a>
-                                            </h2>
+                            <div class="sorter">
+                                <div class="sort-by">
+                                    Sort by:
+                                    <th>{{ knp_pagination_sortable(products, 'Title', 'p.title') }}</th>
+                                    <th>{{ knp_pagination_sortable(products, 'Price', 'p.price') }}</th>
+                                </div>
+                            </div>
+                        </div>                                     
+                        {% for product in products %}
+                        {%if loop.index % 3 == 0 %}
+                        <li class="item last">
+                            <a href="{{path ('shop_shop_productpage', {'id' : product.categoryId.Id,'productid': product.id})}}" title="{{ product.title}}" class="product-image">
+                                <img src="{{asset ('bundles/shopshop/image/' ~ product.filename)}}" width="135" height="135"/>
+                            </a>
 
-                                            <div class="price-box">
-                                                <span class="regular-price" id="product-price-170">
-                                                    <span class="price">{{ product.price|number_format(2, '.', ',')}} US$</span>
-                                                </span>
-                                            </div>
+                            <h2 class="product-name">
+                                <a href="{{path ('shop_shop_productpage', {'id' : product.categoryId.Id,'productid': product.id})}}" title="{{ product.title}}"> {{ product.title}}</a>
+                            </h2>
 
-                                            <div class="actions">
-                                                
-                                                {%if product.stock != 0%}
-                                                <button type="button" title="Add to Cart" class="button btn-cart" >
-                                                    <span><span>Add to Cart</span></span>
-                                                </button>
-                                                {%else%}
-                                                    <div style=color:#C76200>
-                                                        <p1>Out of stock</p1>
-                                                    </div>
-                                                {%endif%}    
-                                            </div>
-                                        </li>
-                                        </ul>
-                                        {%endif %}
-                                        
-                                        {%if loop.index % 3 == 1 %}
-                                        <ul class="products-grid">
-                                        <li class="item first">
-                                            <a href="{{path ('shop_shop_productpage', {'id': product.id})}}" title="{{ product.title}}" class="product-image">
-                                                <img src="{{asset ('bundles/shopshop/image/' ~ product.filename)}}" width="135" height="135"/>
-                                            </a>
+                            <div class="price-box">
+                                <span class="regular-price" id="product-price-170">
+                                    <span class="price">{{ product.price|number_format(2, '.', ',')}} US$</span>
+                                </span>
+                            </div>
 
-                                            <h2 class="product-name">
-                                                <a href="{{path ('shop_shop_productpage', {'id': product.id})}}" title="{{ product.title}}"> {{ product.title}}</a>
-                                            </h2>
+                            <div class="actions">
 
-                                            <div class="price-box">
-                                                <span class="regular-price" id="product-price-170">
-                                                    <span class="price">{{ product.price|number_format(2, '.', ',')}} US$</span>
-                                                </span>
-                                            </div>
-                                                
-                                            <div class="actions">
-                                                
-                                                {%if product.stock != 0%}
-                                                <button type="button" title="Add to Cart" class="button btn-cart" >
-                                                    <span><span>Add to Cart</span></span>
-                                                </button>
-                                                {%else%}
-                                                    <div style=color:#C76200>
-                                                        <p1>Out of stock</p1>
-                                                    </div>
-                                                {%endif%}    
-                                            </div>
-                                        </li>
-                                        {%endif %}
-                                        {%if loop.index % 3 == 2 %}
-                                        <li class="item">
-                                           <a href="{{path ('shop_shop_productpage', {'id': product.id})}}" title="{{ product.title}}" class="product-image">
-                                                <img src="{{asset ('bundles/shopshop/image/' ~ product.filename)}}" width="135" height="135"/>
-                                            </a>
+                                   {%if product.stock != 0%}
+                                <form method='POST' action="{{ path('shop_shop_add') }}">
+                                    <input type='hidden' name='id' value={{ product.id }}>
+                                    <input type='hidden' name='quantity' value={{ 1 }}>
+                                    <input type='hidden' name='price' value={{ product.Price }}>
+                                    <input type='hidden' name='title' value="{{ product.title }}">
 
-                                            <h2 class="product-name">
-                                                <a href="{{path ('shop_shop_productpage', {'id': product.id})}}" title="{{ product.title}}"> {{ product.title}}</a>
-                                            </h2>
+                                    <button type="submit" title="Add to Cart" class="button btn-cart" >
+                                        <span><span>Add to Cart</span></span>
+                                    </button>
+                                </form>
 
-                                            <div class="price-box">
-                                                <span class="regular-price" id="product-price-170">
-                                                    <span class="price">{{ product.price|number_format(2, '.', ',')}} US$</span>
-                                                </span>
-                                            </div>
+                                    {%else%}
+                                <div style=color:#C76200>
+                                    <p1>Out of stock</p1>
+                                </div>
+                                    {%endif%}    
+                            </div>
+                        </li>
+                        </ul>       {%endif %}
 
-                                            <div class="actions">
-                                                
-                                                {%if product.stock != 0%}
-                                                <button type="button" title="Add to Cart" class="button btn-cart" >
-                                                    <span><span>Add to Cart</span></span>
-                                                </button>
-                                                {%else%}
-                                                    <div style=color:#C76200>
-                                                        <p1>Out of stock</p1>
-                                                    </div>
-                                                {%endif%}    
-                                            </div>
-                                        </li>
-                                        {%endif %}
-                                    {% endfor%}
-                                    </ul>
+                        {%if loop.index % 3 == 1 %}
+                        <ul class="products-grid">
+                            <li class="item first">
+                                <a href="{{path ('shop_shop_productpage', {'id' : product.categoryId.Id,'productid': product.id})}}" title="{{ product.title}}" class="product-image">
+                                    <img src="{{asset ('bundles/shopshop/image/' ~ product.filename)}}" width="135" height="135"/>
+                                </a>
 
-                                    <div class="toolbar-bottom">
-                                        <div class="toolbar">
-                                            <div class="pager">
-                                                <p class="amount">
-                                                    <strong>{{ products.getTotalItemCount()}} Item(s)</strong>
-                                                </p>
-                                                <div class="pages">
+                                <h2 class="product-name">
+                                    <a href="{{path ('shop_shop_productpage', {'id' : product.categoryId.Id,'productid': product.id})}}" title="{{ product.title}}"> {{ product.title}}</a>
+                                </h2>
+
+                                <div class="price-box">
+                                    <span class="regular-price" id="product-price-170">
+                                        <span class="price">{{ product.price|number_format(2, '.', ',')}} US$</span>
+                                    </span>
+                                </div>
+
+                                <div class="actions">
+
+                                    {%if product.stock != 0%}
+                                    <form method='POST' action="{{ path('shop_shop_add') }}">
+                                        <input type='hidden' name='id' value={{ product.id }}>
+                                        <input type='hidden' name='quantity' value={{ 1 }}>
+                                        <input type='hidden' name='price' value={{ product.Price }}>
+                                        <input type='hidden' name='title' value="{{ product.title }}">
+
+                                        <button type="submit" title="Add to Cart" class="button btn-cart" >
+                                            <span><span>Add to Cart</span></span>
+                                        </button>
+                                    </form>
+                                     {%else%}
+                                    <div style=color:#C76200>
+                                        <p1>Out of stock</p1>
+                                    </div>
+                                    {%endif%}    
+
+                                </div>
+                            </li>
+                           {%endif %}
+
+                            {%if loop.index % 3 == 2 %}
+                            <li class="item">
+                                <a href="{{path ('shop_shop_productpage', {'id' : product.categoryId.Id,'productid': product.id})}}" title="{{ product.title}}" class="product-image">
+                                    <img src="{{asset ('bundles/shopshop/image/' ~ product.filename)}}" width="135" height="135"/>
+                                </a>
+
+                                <h2 class="product-name">
+                                    <a href="{{path ('shop_shop_productpage', {'id' : product.categoryId.Id,'productid': product.id})}}" title="{{ product.title}}"> {{ product.title}}</a>
+                                </h2>
+
+                                <div class="price-box">
+                                    <span class="regular-price" id="product-price-170">
+                                        <span class="price">{{ product.price|number_format(2, '.', ',')}} US$</span>
+                                    </span>
+                                </div>
+
+                                <div class="actions">
+
+                                   {%if product.stock != 0%}
+                                    <form method='POST' action="{{ path('shop_shop_add') }}">
+                                        <input type='hidden' name='id' value={{ product.id }}>
+                                        <input type='hidden' name='quantity' value={{ 1 }}>
+                                        <input type='hidden' name='price' value={{ product.Price }}>
+                                        <input type='hidden' name='title' value="{{ product.title }}">
+
+                                        <button type="submit" title="Add to Cart" class="button btn-cart" >
+                                            <span><span>Add to Cart</span></span>
+                                        </button>
+                                    </form>
+                                   {%else%}
+                                    <div style=color:#C76200>
+                                        <p1>Out of stock</p1>
+                                    </div>
+                                   {%endif%}    
+
+                                </div>
+                            </li>
+                            {%endif %}
+                            {% endfor%}
+                        </ul>
+
+                        <div class="toolbar-bottom">
+                            <div class="toolbar">
+                                <div class="pager">
+                                    <p class="amount">
+                                        <strong>{{ products.getTotalItemCount()}} Item(s)</strong>
+                                    </p>
+                                    <div class="pages">
                                                     {{ knp_pagination_render(products) }}
-                                                </div>
-                                            </div>
+                                        </div>
+                                    </div>
 
-                                            <div class="sorter">
-                                            <div class="sort-by">
-                                                    Sort by:
-                                                    <th>{{ knp_pagination_sortable(products, 'Title', 'p.title') }}</th>
-                                                    <th>{{ knp_pagination_sortable(products, 'Price', 'p.price') }}</th>
-                                            </div>
-                                        </div>
+                                    <div class="sorter">
+                                        <div class="sort-by">
+                                            Sort by:
+                                            <th>{{ knp_pagination_sortable(products, 'Title', 'p.title') }}</th>
+                                            <th>{{ knp_pagination_sortable(products, 'Price', 'p.price') }}</th>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-left sidebar">
-                                <div class="block block-layered-nav">
-                                    <div class="block-title">
-                                        <strong><span>Shop By</span></strong>
-                                    </div>
-                                    <div class="block-content">
-                                        <div class="currently">
-                                            <p class="block-subtitle">Currently Shopping by:</p>
-                                            <ol>
-                                                {%if category.id is defined%}
-                                                <li>
-                                                    <span class="label">Category:</span> <span class="value">{{category.categoryName}}</span> 
-                                                 <!--   <a class="btn-remove" href="#" title="Remove This Item">Remove This Item</a>  -->
-                                                </li>
-                                                {%endif%}
-                                                {%if stock is defined and stock != 'all'%}
-                                                <li>
-                                                    <span class="label">Stock:</span> <span class="value">{{stock}}</span> 
-                                                    <a class="btn-remove" href="{{path('shop_shop_categorypage', {'id' : category.id,'range': range,})}}" title="Remove This Item">Remove This Item</a> 
-                                                </li>
-                                                {%endif%}
-                                                {%if range is defined and range != 'all'%}
-                                                <li>
-                                                    <span class="label">Price:</span> <span class="value">Between: {{range}} $</span> 
-                                                    <a class="btn-remove" href="{{path('shop_shop_categorypage', {'id' : category.id,'stock':stock})}}" title="Remove This Item">Remove This Item</a> 
-                                                </li>
-                                                {%endif%}
-                                            </ol>
-                                        </div>
-                                        <div class="actions"><a href="{{path('shop_shop_categorypage', {'id' : category.id})}}">Clear All</a></div>
-                                        <p class="block-subtitle">Shopping Options</p>
-                                        <dl id="narrow-by-list">
-                                            <dt>Price</dt>
-                                            <dd>
-                                                <ol>
-                                                    <li><a href="{{path('shop_shop_categorypage', {'id' : category.id,'range': '1,00-49,00','stock':stock})}}"><span class="price">0,00 US$</span> - <span class="price">49,99 US$</span></a></li>
-                                                    <li><a href="{{path('shop_shop_categorypage', {'id' : category.id,'range': '50,00-100,00','stock':stock})}}"><span class="price">50,00 US$</span> - <span class="price">99,99 US$</span></a></li>
-                                                    <li><a href="{{path('shop_shop_categorypage', {'id' : category.id,'range': '100,00-above','stock':stock})}}"><span class="price">100,00 US$</span> and above</a></li>
-                                                </ol>
-                                            </dd>
-                                            <dt>Stock</dt>
-                                            <dd>
-                                                <ol>
-                                                    <li><a href="{{path('shop_shop_categorypage', {'id' : category.id,'stock': 'available','range':range})}}">Available</a></li>
-                                                    <li><a href="{{path('shop_shop_categorypage', {'id' : category.id,'stock': 'soon','range':range})}}">Soon</a></li>
-                                                </ol>
-                                            </dd>
-                                        </dl>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-right sidebar">
-                            <div class="block block-cart">
-                                <div class="block-title">
-                                    <strong><span>My Cart</span></strong>
-                                </div>
-                                <div class="block-content">
-                                    <p class="empty">You have no items in your shopping cart.</p>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
-                </div>
+                    <div class="col-left sidebar">
+                        <div class="block block-layered-nav">
+                            <div class="block-title">
+                                <strong><span>Shop By</span></strong>
+                            </div>
+                            <div class="block-content">
+                                <div class="currently">
+                                    <p class="block-subtitle">Currently Shopping by:</p>
+                                    <ol>
+                                                {%if category.id is defined%}
+                                            <li>
+                                                <span class="label">Category:</span> <span class="value">{{category.categoryName}}</span> 
+                                                <!--   <a class="btn-remove" href="#" title="Remove This Item">Remove This Item</a>  -->
+                                            </li>
+                                                {%endif%}
+                                                {%if stock is defined and stock != 'all'%}
+                                            <li>
+                                                <span class="label">Stock:</span> <span class="value">{{stock}}</span> 
+                                                <a class="btn-remove" href="{{path('shop_shop_categorypage', {'id' : category.id,'range': range,})}}" title="Remove This Item">Remove This Item</a> 
+                                            </li>
+                                                {%endif%}
+                                                {%if range is defined and range != 'all'%}
+                                            <li>
+                                                <span class="label">Price:</span> <span class="value">Between: {{range}} $</span> 
+                                                <a class="btn-remove" href="{{path('shop_shop_categorypage', {'id' : category.id,'stock':stock})}}" title="Remove This Item">Remove This Item</a> 
+                                            </li>
+                                                {%endif%}
+                                        </ol>
+                                    </div>
+                                    <div class="actions"><a href="{{path('shop_shop_categorypage', {'id' : category.id})}}">Clear All</a></div>
+                                    <p class="block-subtitle">Shopping Options</p>
+                                    <dl id="narrow-by-list">
+                                        <dt>Price</dt>
+                                        <dd>
+                                            <ol>
+                                                <li><a href="{{path('shop_shop_categorypage', {'id' : category.id,'range': '1,00-49,00','stock':stock})}}"><span class="price">0,00 US$</span> - <span class="price">49,99 US$</span></a></li>
+                                                <li><a href="{{path('shop_shop_categorypage', {'id' : category.id,'range': '50,00-100,00','stock':stock})}}"><span class="price">50,00 US$</span> - <span class="price">99,99 US$</span></a></li>
+                                                <li><a href="{{path('shop_shop_categorypage', {'id' : category.id,'range': '100,00-above','stock':stock})}}"><span class="price">100,00 US$</span> and above</a></li>
+                                            </ol>
+                                        </dd>
+                                        <dt>Stock</dt>
+                                        <dd>
+                                            <ol>
+                                                <li><a href="{{path('shop_shop_categorypage', {'id' : category.id,'stock': 'available','range':range})}}">Available</a></li>
+                                                <li><a href="{{path('shop_shop_categorypage', {'id' : category.id,'stock': 'soon','range':range})}}">Soon</a></li>
+                                            </ol>
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                {%if cart.getCartItems%}
+                    <div class="col-right sidebar">
+                        <div class="block block-cart">
+                            <div class="block-title">
+                                <strong><span>My Cart</span></strong>
+                            </div>
+                            <div class="block-content">
+                                <div class="summary">
+                                    {%set nritems =  0%}                                
+                                    {%for product in cart.getcartItems%}
+                                    {%set nritems = nritems + product.quantity %}
+                                    {%endfor%}
+                                        <p class="amount">There are <a href="{{path('shop_shop_cartPage')}}">{{nritems}} items</a> in your cart.</p>
+                                        <p class="subtotal">
+                                                <span class="label">Cart Subtotal:</span>
+                                                <span class="price">{{cart.getTotal}}US$</span>
+                                            </p>
+                                        </div>
+                                        <div class="actions">
+                                            <button type="button" title="Checkout" class="button" onclick="window.location = '/checkout/checkoutBilling'" ><span><span>Checkout</span></span></button>
+                                        </div>
+                                        <p class="block-subtitle">Recently added item(s)</p>
+
+                                        <ol id="cart-sidebar" class="mini-products-list">
+                                 {%if cart|length>0  %}
+                                   {%for product in cart.getcartItems %}
+                                                <li class="item">
+                                                    <a href="{{path ('shop_shop_productpage', {'id' : product.getProductId.categoryid.id , 'productid':  product.getProductId.id})}}" title="{{ product.getProductId.title}}" class="product-image">
+                                                        <img src="{{asset ('bundles/shopshop/image/' ~  product.getProductId.filename)}}" width="50" height="50" alt="{{ product.getProductId.title}}" />
+                                                    </a>
+                                                    <div class="product-details">
+                                                        <a href="{{path ('shop_shop_removeitem', {'id' : product.getId})}}" title="Remove This Item" class="btn-remove">Remove This Item</a>
+                                                        <a href="/shoppingCart/" title="Edit item" class="btn-edit">Edit item</a>
+                                                        <p class="product-name"><a href="{{path ('shop_shop_productpage', {'id' : product.getProductId.categoryid.id , 'productid':  product.getProductId.id})}}">{{product.getTitle}}</a></p>
+                                                        <strong>{{product.getQuantity}}</strong> x
+                                                        <span class="price">{{product.getPrice}}US$</span>
+                                                    </div>
+                                                </li> 
+                                        {% else %}
+                                       {% endfor %}
+                                        {% endif %}
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                                  {%else%}
+                                <div class="col-right sidebar">
+                                    <div class="block block-cart">
+                                        <div class="block-title">
+                                            <strong><span>My Cart</span></strong>
+                                        </div>
+                                        <div class="block-content">
+                                            <p class="empty">You have no items in your shopping cart.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                {%endif%}
+                            </div>
+                        </div>
 {%endblock%}

@@ -3,47 +3,58 @@
 namespace Shop\ShopBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ORM\Entity(repositoryClass="Shop\ShopBundle\Entity\Repository\CartItemsRepository")
+ * @ORM\Entity(repositoryClass="Shop\ShopBundle\Entity\Repository\CartItemRepository")
  * @ORM\Table(name="cart_items")
- * @ORM\HasLifecycleCallbacks()
  */
-class CartItems {
+class CartItem {
 
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
-    
+    protected $id;
+
     /**
-     * @ORM\ManyToOne(targetEntity="Cart")
+     * @ORM\ManyToOne(targetEntity="Cart", inversedBy="cart_items")
      * @ORM\JoinColumn(name="cart_id", referencedColumnName="id")
      */
-    private $cart_id;
-    
+    protected $cart;
+
     /**
      * @ORM\ManyToOne(targetEntity="Product")
      * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      */
-    private $product_id;
-    
-    /**
-    * @ORM\Column(type="string")
-    */
-    private $title;
-    
-    /**
-     * @ORM\Column(type="integer", length=11)
-     */
-    private $quantity;
+    protected $product_id;
 
     /**
-     * @ORM\Column(type="decimal")
+     * @ORM\Column(type="string")
      */
-    private $price;
+    protected $title;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $quantity;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $price;
+
+    public function newItem($productId, $price = null, $title = null, $cart = null, $quantity) {
+        $cartItem = new CartItem();
+        $cartItem->setPrice($price);
+        $cartItem->setTitle($title);
+        $cartItem->setQuantity($quantity);
+        $cartItem->setCart($cart);
+        $cartItem->setProductId($productId);
+        return $cartItem;
+    }
+
 
 
 
@@ -61,7 +72,7 @@ class CartItems {
      * Set title
      *
      * @param string $title
-     * @return CartItems
+     * @return CartItem
      */
     public function setTitle($title)
     {
@@ -84,7 +95,7 @@ class CartItems {
      * Set quantity
      *
      * @param integer $quantity
-     * @return CartItems
+     * @return CartItem
      */
     public function setQuantity($quantity)
     {
@@ -106,8 +117,8 @@ class CartItems {
     /**
      * Set price
      *
-     * @param float $price
-     * @return CartItems
+     * @param string $price
+     * @return CartItem
      */
     public function setPrice($price)
     {
@@ -119,7 +130,7 @@ class CartItems {
     /**
      * Get price
      *
-     * @return float 
+     * @return string 
      */
     public function getPrice()
     {
@@ -127,33 +138,33 @@ class CartItems {
     }
 
     /**
-     * Set cart_id
+     * Set cart
      *
-     * @param \Shop\ShopBundle\Entity\Cart $cartId
-     * @return CartItems
+     * @param \Shop\ShopBundle\Entity\Cart $cart
+     * @return CartItem
      */
-    public function setCartId(\Shop\ShopBundle\Entity\Cart $cartId = null)
+    public function setCart(\Shop\ShopBundle\Entity\Cart $cart = null)
     {
-        $this->cart_id = $cartId;
+        $this->cart = $cart;
     
         return $this;
     }
 
     /**
-     * Get cart_id
+     * Get cart
      *
      * @return \Shop\ShopBundle\Entity\Cart 
      */
-    public function getCartId()
+    public function getCart()
     {
-        return $this->cart_id;
+        return $this->cart;
     }
 
     /**
      * Set product_id
      *
      * @param \Shop\ShopBundle\Entity\Product $productId
-     * @return CartItems
+     * @return CartItem
      */
     public function setProductId(\Shop\ShopBundle\Entity\Product $productId = null)
     {
