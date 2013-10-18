@@ -13,11 +13,8 @@
                         </li>
                     </ul>
                 </div>
-                    {%for product in cart.getcartItems%}
-                    {{dump(product.id)}}
+                <form action="{{path('shop_shop_updateCart')}}" method="post">
                     
-                <form action="{{path('shop_shop_updateCart', {'id' : product.id})}}" method="post">
-                    {%endfor%}
                     <fieldset>
                         <table id="shopping-cart-table" class="data-table cart-table">
                             <colgroup>

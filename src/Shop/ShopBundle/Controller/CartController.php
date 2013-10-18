@@ -13,6 +13,7 @@ class CartController extends Controller {
                 ->getManager();
         $cart = $this->init($em);
         $em->getRepository('ShopShopBundle:Product')->findAll();
+        
         return $this->render('ShopShopBundle:CartView:cart.html.twig', array('cart' => $cart));
     }
 
@@ -32,8 +33,7 @@ class CartController extends Controller {
                 $quantity = 1;
             }
         }
-//        var_dump($guest);
-//        die('*');
+
         $cart = $this->init($em);
         $cartItem = new CartItem();
         $cartItem = $cartItem->newItem($product, $_POST['price'], $_POST['title'], $cart, $quantity);
@@ -41,9 +41,11 @@ class CartController extends Controller {
             $cart->addCartItem($cartItem);
             $em->flush();
             $this->updateCartTotal();
+            
             return $this->redirect($this->getRequest()->headers->get("referer"));
         } else {
             $em->flush();
+            
             return $this->redirect($this->getRequest()->headers->get("referer"));
         }
     }
@@ -74,9 +76,11 @@ class CartController extends Controller {
             $this->updateCartTotal();
         } elseif (isset($_POST['update'])) {
             foreach($cart->getCartItems() as $item){
-            var_dump($_POST);die();
+            var_dump($_POST);
             }
+            die();
         }
+        
         return $this->redirect($this->getRequest()->headers->get("referer"));
     }
 
@@ -90,6 +94,7 @@ class CartController extends Controller {
         }
         $cart->setTotal($total);
         $em->flush();
+        
         return $cart->getTotal();
     }
 
@@ -101,7 +106,7 @@ class CartController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $cart = $this->init($em);
         foreach ($cart->getCartItems() as $item) {
-//            $i++;
+            $i++;
             if ($add == false) { //// in ramura asta nu intra niciodata?
                 //  add vine tot timpul cu valoarea lui quantity, care e 1 din pagina de category si cat ii dai in forma pe pagina de produs 
                 // merge fara probleme desi e un die in el.
@@ -131,9 +136,6 @@ class CartController extends Controller {
     }
 
     protected function init($em) {
-//        if ($this->container->get('security.context')->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
-//        ;
-//        }
         $cart = $em->getRepository('ShopShopBundle:Cart')->getCartForUser($this->getUser());
         if (sizeof($cart) != 0) {
             $cart = $cart[0];
@@ -147,6 +149,7 @@ class CartController extends Controller {
             $cart = $em->getRepository('ShopShopBundle:Cart')->createCart($guest, $em, $items);
             $_SESSION['cart'] = $cart->getId();
         }
+
         return $cart;
     }
 
@@ -159,6 +162,7 @@ class CartController extends Controller {
             }
         }
         if (isset($_POST['remove'])) {
+            
             return $this->removeAction();
         }
     }

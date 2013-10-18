@@ -25,6 +25,14 @@ class CartItemRepository extends EntityRepository {
        
     }
     
+        public function updateItems($id, $quantity) {
+        $query = $this->_em->createQuery('UPDATE Shop\ShopBundle\Entity\CartItem c SET c.quantity = ?1 where c.id = ?2');
+        $query->setParameter(1, $quantity);
+        $query->setParameter(2, $id);
+        $result = $query->getResult();
+       
+    }
+    
 
 
 }
