@@ -3,6 +3,8 @@
 namespace Shop\ShopBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
+
 
 /**
  * ProductRepository
@@ -25,6 +27,20 @@ class ProductRepository extends EntityRepository
                   ->getResult();
         
     }
+         public function getProducts($cat_id)
+    {
+             if ($cat_id!=0){
+                  $qb = $this->createQueryBuilder('p')
+                ->select('p')
+                ->add('from','ShopShopBundle:Product p')
+                ->where('p.category_id='.$cat_id);
+
+                return $qb->getQuery()
+                  ->getResult();
+               
+             }
+
+    }
     
         public function getName($id)
     {
@@ -34,10 +50,26 @@ class ProductRepository extends EntityRepository
 
         if (false === is_null($limit))
             $qb->setMaxResults($limit);
-
+        
         return $qb->getQuery()
                   ->getResult();
 
+    }
+    
+        public function getRandom($catid) {
+        $rsm = new ResultSetMapping();
+        $rsm->addEntityResult('Shop\ShopBundle\Entity\Product', 'p');
+        $rsm->addFieldResult('p', 'id', 'id'); // ($alias, $columnName, $fieldName)
+        $rsm->addFieldResult('p', 'title', 'title'); // ($alias, $columnName, $fieldName)
+        $rsm->addFieldResult('p', 'price', 'price'); // ($alias, $columnName, $fieldName)
+        $rsm->addFieldResult('p', 'path', 'path'); // ($alias, $columnName, $fieldName)
+        $rsm->addFieldResult('p', 'filename', 'filename'); // ($alias, $columnName, $fieldName)
+
+        $qb = $this->_em->createNativeQuery('SELECT * from products where category_id = ? ORDER BY RAND() LIMIT 4', $rsm);
+        $qb->setParameter(1, $catid);
+        $result = $qb->getResult();
+
+        return $result;
     }
     
     

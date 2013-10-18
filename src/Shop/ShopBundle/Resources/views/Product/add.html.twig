@@ -1,0 +1,9 @@
+<form action="{{path ('shop_shop_add', {'catid' : product.categoryId.Id , 'id': product.id})}}" method="post" {{ form_enctype(form) }}>  
+      {{ form_widget(form._token) }}
+      {{ form_widget(form.quantity) }}
+      
+        
+        <br>
+        <button type="submit" title="Add to Cart" class="button btn-cart" ><span><span>Add to Cart</span></span></button>
+       
+</form>

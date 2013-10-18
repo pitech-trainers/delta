@@ -1,0 +1,109 @@
+{% trans_default_domain 'FOSUserBundle' %}
+<div class="main-container col2-left-layout">
+    <div class="main">
+        <div class="col-main">
+            <div class="account-create">
+                <div class="page-title">
+                    <h1>Account Information</h1>
+                </div>
+                <form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit">
+                    <div class="fieldset">
+                        <h2 class="legend">Personal Information</h2>
+                        <ul class="form-list">
+                            <li class="fields">
+                                <div class="customer-name">
+                                    <div class="field name-firstname">
+                                            {{ form_label(form.firstName) }}
+                                            <div class="input-box">
+                                                {{ form_widget(form.firstName, { 'attr': {'class': 'input-text required-entry'} }) }}
+                                                </div>
+                                            </div>
+                                            <div class="field name-lastname">
+                                            {{ form_label(form.lastName) }}
+                                                    <div class="input-box">
+                                                {{ form_widget(form.lastName, { 'attr': {'class': 'input-text required-entry'} }) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="field">
+                                                    {{ form_label(form.email) }}
+                                                    <div class="input-box">
+                                                        {{ form_widget(form.email, { 'attr': {'class': 'input-text validate-email required-entry'} }) }}
+                                                    </div>
+                                                </div>
+                                                <div class="field">
+                                                    {{ form_label(form.mobile) }}
+                                                    <div class="input-box">
+                                                        {{ form_widget(form.mobile, { 'attr': {'class': 'input-text'} }) }}
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="field">
+                                                    {{ form_label(form.gender) }}
+                                                    <div class="input-box">
+                                                        {% for child in form.gender %}
+                                                                     {{ form_label(child) }}
+                                                       
+                                                                     {{ form_widget(child) }}
+                                                            <br>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="fieldset">
+                                        <h2 class="legend">Login Information</h2>
+                                        <ul class="form-list">
+                                            <li>
+                                                {{ form_label(form.username) }}
+                                                <div class="input-box">
+                                                    {{ form_widget(form.username, { 'attr': {'class': 'input-text required-entry'} }) }}
+                                                </div>
+                                            </li>
+                                            <li class="fields">
+                                                <div class="field">
+                                                    {{form_label(form.current_password) }}
+                                                    <div class="input-box">
+                                                        {{form_widget(form.current_password, { 'attr': {'class': 'input-text required-entry validate-password'} }) }}
+                                                    </div>
+                                                </div>
+
+                                            </li>
+                                            <li class="fields">
+                                            <p class="back-link"><a href="{{path('fos_user_change_password')}}" class="back-link">Change password</a></p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    {{form_rest(form)}}
+                                    <div class="buttons-set">
+                                        <p class="required">* Required Fields</p>
+                                        <button type="submit" title="Submit" class="button"><span><span>Submit</span></span></button>
+                                    </div>
+                                </form>
+            </div>
+        </div>
+        <div class="col-left sidebar">
+            <div class="block block-account">
+                <div class="block-title">
+                    <strong><span>My Account</span></strong>
+                </div>
+                <div class="block-content">
+                    {% set menuItem = knp_menu_get('ShopShopBundle:Builder:accountMenu') %}
+                        {{ knp_menu_render(menuItem) }}
+                </div>
+            </div>
+            <div class="block block-cart">
+                                <div class="block-title">
+                                    <strong><span>My Cart</span></strong>
+                                </div>
+                                <div class="block-content">
+                                    <p class="empty">You have no items in your shopping cart.</p>
+                                </div>
+                            </div>
+        </div>
+    </div>
+</div>

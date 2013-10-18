@@ -65,7 +65,22 @@ class User extends BaseUser {
      * )
      */
     protected $mobile;
+    
+     /**
+     * @ORM\ManyToOne(targetEntity="Address")
+     * @ORM\JoinColumn(name="shipping_address", referencedColumnName="id")
+     */
+    private $shippingAddress;
+    
+     /**
+     * @ORM\ManyToOne(targetEntity="Address")
+     * @ORM\JoinColumn(name="billing_address", referencedColumnName="id")
+     */
+    
+    private $billingAddress;
+    
 
+    
     public function __construct() {
         parent::__construct();
         // your own logic
@@ -77,6 +92,18 @@ class User extends BaseUser {
      * @return integer 
      */
     public function getId() {
+        return $this->id;
+    }
+    
+    /**
+     * Set id
+     *
+     * @param integer $int
+     * @return integer 
+     */
+    public function setId($int) {
+        $this->id = $int;
+        
         return $this->id;
     }
 
@@ -164,4 +191,56 @@ class User extends BaseUser {
         return $this->mobile;
     }
 
+    /**
+     * Set shippingAddress
+     *
+     * @param \Shop\ShopBundle\Entity\Address $shippingAddress
+     * @return User
+     */
+    public function setShippingAddress(\Shop\ShopBundle\Entity\Address $shippingAddress = null)
+    {
+        $this->shippingAddress = $shippingAddress;
+    
+        return $this;
+    }
+
+    /**
+     * Get shippingAddress
+     *
+     * @return \Shop\ShopBundle\Entity\Address 
+     */
+    public function getShippingAddress()
+    {
+        return $this->shippingAddress;
+    }
+
+    /**
+     * Set billingAddress
+     *
+     * @param \Shop\ShopBundle\Entity\Address $billingAddress
+     * @return User
+     */
+    public function setBillingAddress(\Shop\ShopBundle\Entity\Address $billingAddress = null)
+    {
+        $this->billingAddress = $billingAddress;
+    
+        return $this;
+    }
+
+    /**
+     * Get billingAddress
+     *
+     * @return \Shop\ShopBundle\Entity\Address 
+     */
+    public function getBillingAddress()
+    {
+        return $this->billingAddress;
+    }
+
+    /**
+     * Set cart
+     *
+     * @param \Shop\ShopBundle\Entity\Cart $cart
+     * @return User
+     */
 }

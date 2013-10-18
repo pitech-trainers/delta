@@ -27,6 +27,22 @@ class Builder extends ContainerAware {
         }
         return $menu;
     }
+    public function accountMenu(FactoryInterface $factory, array $options) {
+
+        $menu = $factory->createItem('root');
+            
+            $menu->addChild("Account Dashboard", 
+                    array('route' => 'fos_user_profile_show'))
+                 ->addChild("Account Information", 
+                    array('route' => 'fos_user_profile_edit'))
+                 ->addChild("My Orders", 
+                    array('route' => 'shop_shop_orders')) 
+                 ->addChild("Billing address", 
+                    array('route' => 'shop_shop_billing'))
+                 ->addChild("Shipping address", 
+                    array('route' => 'shop_shop_shipping'));
+        return $menu;
+    }
     
     
 

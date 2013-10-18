@@ -3,16 +3,75 @@ shop_shop_homepage:
     defaults: { _controller: ShopShopBundle:Default:index }
     
 shop_shop_productpage:
-    pattern: /product_{id}
+    pattern: /{id}/product/{productid}
     defaults: { _controller: ShopShopBundle:Page:showproduct }
     requirements:
         _method:  GET
-        id: \d+
+        productid: \d+
+        catid: \d+
 
 shop_shop_categorypage:
-    pattern: /catid={id}
-    defaults: { _controller: ShopShopBundle:categoryPage:showcategory}
+    pattern: /catid={id}/{range}/{stock}/{search}
+    defaults: { _controller: ShopShopBundle:categoryPage:showcategory, range : "all",stock: "all",search : "none"}
     requirements:
         _method: GET
         id: \d+
+        
+shop_shop_orders:
+    pattern: /orders/
+    defaults: { _controller: ShopShopBundle:Dashboard:show_orders}
+    requirements:
+        _method: GET
+        
+shop_shop_order:
+    pattern: /orders/ordid={ordid}
+    defaults: { _controller: ShopShopBundle:Dashboard:show_order}
+    requirements:
+        _method: GET
+        ordid: \d+
+        
+shop_shop_shipping:
+    pattern: /shipping
+    defaults: { _controller: ShopShopBundle:Dashboard:show_shipping}
+    requirements:
+        _method: POST|GET
+        
+shop_shop_billing:
+    pattern: /billing
+    defaults: { _controller: ShopShopBundle:Dashboard:show_billing}
+    requirements:
+        _method: GET|POST
+        
+        
+shop_shop_addtocart:
+    pattern: /{catid}/product/{id}
+    defaults: { _controller: ShopShopBundle:Cart:addtocart }
+    requirements:
+        _method:  POST
+        id: \d+
+        catid: \d+
 
+shop_shop_removeitem:
+    pattern: /remove/{id}
+    defaults: { _controller: ShopShopBundle:Cart:remove }
+    requirements: 
+      id: \d+
+
+shop_shop_add:
+    pattern:  /product
+    defaults: { _controller: ShopShopBundle:Cart:add }
+    requirements:
+        _method:  POST
+
+shop_shop_cartPage:
+  pattern: /cart
+  defaults: {_controller: ShopShopBundle:Cart:cartPage}
+
+  
+shop_shop_updateCart:
+  pattern: /update
+  defaults: {_controller: ShopShopBundle:Cart:updateCart}
+  requirements:
+       _method:  POST
+
+  
