@@ -12,6 +12,11 @@ src/Shop/ShopBundle/Entity/User.php~
 src/Shop/ShopBundle/Entity/CartItem.php~
 src/Shop/ShopBundle/Entity/Product.php~
 src/Shop/ShopBundle/Entity/Adress.php~
+src/Shop/ShopBundle/Entity/Cart.php~
+src/Shop/ShopBundle/Entity/CartItems.php~
+src/Shop/ShopBundle/Entity/Category.php~
+src/Shop/ShopBundle/Entity/Product.php~
 # Configuration files
 app/config/parameters.ini
 app/config/parameters.yml
+
