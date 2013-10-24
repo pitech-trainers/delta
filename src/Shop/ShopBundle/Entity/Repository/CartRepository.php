@@ -51,18 +51,13 @@ class CartRepository extends EntityRepository {
         return $cart;
     }
     
-    public function getGeneralCart($em,$user){
-//        if ($this->container->get('security.context')->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
-//        ;
-//        }
+    public function getGeneralCart($em,$user,$guest=null){
         $cart = $em->getRepository('ShopShopBundle:Cart')->getCartForUser($user);
         if (sizeof($cart) != 0) {
             $cart = $cart[0];
         } elseif (isset($_SESSION['cart'])) {
             $cart = $em->getRepository('ShopShopBundle:Cart')->find($_SESSION['cart']);    
         } else {
-            $userManager = $this->container->get('fos_user.user_manager');
-            $guest = $userManager->findUserByUsername('GUEST');
             $items=array();
             $cart = $em->getRepository('ShopShopBundle:Cart')->createCart($guest,$em,$items);
             $_SESSION['cart'] =$cart->getId();

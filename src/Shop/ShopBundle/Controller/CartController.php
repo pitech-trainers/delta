@@ -13,7 +13,7 @@ class CartController extends Controller {
                 ->getManager();
         $cart = $this->init($em);
         $em->getRepository('ShopShopBundle:Product')->findAll();
-        
+
         return $this->render('ShopShopBundle:CartView:cart.html.twig', array('cart' => $cart));
     }
 
@@ -22,7 +22,7 @@ class CartController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $product = $em->getRepository('ShopShopBundle:Product')->find($_POST['id']);
         if (isset($_POST['quantity'])) {
-            if ($_POST['quantity'] >= 1 && $_POST['quantity'] < $product->getStock()) {
+            if ($_POST['quantity'] >= 1 && $_POST['quantity'] <= $product->getStock()) {
                 $this->get('session')->getFlashBag()->add('notice-success', 'Product added to cart');
                 $quantity = $_POST['quantity'];
             } else if ($_POST['quantity'] != '') {
@@ -41,11 +41,11 @@ class CartController extends Controller {
             $cart->addCartItem($cartItem);
             $em->flush();
             $this->updateCartTotal();
-            
+
             return $this->redirect($this->getRequest()->headers->get("referer"));
         } else {
             $em->flush();
-            
+
             return $this->redirect($this->getRequest()->headers->get("referer"));
         }
     }
@@ -75,12 +75,21 @@ class CartController extends Controller {
             $em->getRepository('ShopShopBundle:CartItem')->clearCart($cart->getId());
             $this->updateCartTotal();
         } elseif (isset($_POST['update'])) {
-            foreach($cart->getCartItems() as $item){
-            var_dump($_POST);
+            foreach ($_POST['prodid'] as $i){
+                 $cartitem= $em->getRepository('ShopShopBundle:CartItem')->find($i);
+                 $qty=(int)$_POST['prodqty'][$i];
+                 if ($qty > $cartitem->getProductId()->getStock()){
+                     $qty=$cartitem->getProductId()->getStock();
+                     $this->get('session')->getFlashBag()->add('notice-failure', 'Invalid quantity for product: \''.$cartitem->getProductId()->getTitle().'\' maximum of stock added.');
+                 }else{
+                     $this->get('session')->getFlashBag()->add('notice-success', 'Updated quantity for product : \''.$cartitem->getProductId()->getTitle().'\'');
+                 }
+                 $cartitem->setQuantity($qty);
             }
-            die();
+            $this->updateCartTotal();
+            $em->flush();
         }
-        
+
         return $this->redirect($this->getRequest()->headers->get("referer"));
     }
 
@@ -94,7 +103,7 @@ class CartController extends Controller {
         }
         $cart->setTotal($total);
         $em->flush();
-        
+
         return $cart->getTotal();
     }
 
@@ -112,19 +121,15 @@ class CartController extends Controller {
                 // merge fara probleme desi e un die in el.
                 if ($item->getProductId()->getId() == $_POST['id'][$i]) {
                     $item->setQuantity($_POST['quantity'][$i]);
-                    var_dump($item->getQuantity());
-                    die();
                     $total = $total + $item->getQuantity($_POST['quantity'][$i]) * $item->getPrice($_POST['quantity'][$i]);
                     $cart->setTotal($total);
                     $em->flush();
-
                     return $this->redirect($this->getRequest()->headers->get("referer"));
                 }
             } elseif ($item->getProductId()->getId() == $_POST['id']) {
                 if ($item->getQuantity() + $add > $item->getProductId()->getStock() || $item->getQuantity() == $item->getProductId()->getStock()) {
                     $this->get('session')->getFlashBag()->add('notice-failure', 'Insufficient quantity in stock.');
                 } else {
-
                     $this->get('session')->getFlashBag()->add('notice-success', 'Product added to cart');
                     $item->setQuantity($item->getQuantity() + $add);
                     $this->updateCartTotal();
@@ -143,10 +148,8 @@ class CartController extends Controller {
             $cart = $em->getRepository('ShopShopBundle:Cart')->findBy(array('id' => $_SESSION['cart']));
             $cart = $cart[0];
         } else {
-            $userManager = $this->container->get('fos_user.user_manager');
-            $guest = $userManager->findUserByUsername('GUEST');
             $items = array();
-            $cart = $em->getRepository('ShopShopBundle:Cart')->createCart($guest, $em, $items);
+            $cart = $em->getRepository('ShopShopBundle:Cart')->createCart(null, $em, $items);
             $_SESSION['cart'] = $cart->getId();
         }
 
@@ -162,7 +165,7 @@ class CartController extends Controller {
             }
         }
         if (isset($_POST['remove'])) {
-            
+
             return $this->removeAction();
         }
     }

@@ -1,0 +1,69 @@
+{% extends 'ShopShopBundle::bundle-layout.html.twig' %}
+{%block container%}
+<div class="main-container col2-left-layout">
+    <div class="main">
+        <div class="col-main">
+            <div class="my-account">
+                <div class="dashboard">
+                    <div class="page-title">
+                        <h1>My Dashboard</h1>
+                    </div>
+                    <div class="welcome-msg">
+                        <p class="hello"><strong>Hello, {{user.firstname}} {{user.lastname}} !</strong></p>
+                        <p>From your My Account Dashboard you have the ability to view a
+                            snapshot of your recent account activity and update your account
+                            information. Select a link below to view or edit information.</p>
+                    </div>
+                    <div class="box-account box-recent">
+                        <div class="box-head">
+                            <h2>Order history</h2>
+                        </div>
+                        <table class="data-table" id="my-orders-table">
+                            <col width="1" />
+                            <col width="1" />
+                            <col />
+                            <col width="1" />
+                            <col />
+                            <col width="1" />
+                            <col />
+                            <col width="1" />
+
+                            <thead>
+                                <tr class="first last">
+                                    <th>Order #</th>
+                                    <th>Date</th>
+                                    <th>Ship To</th>
+                                    <th><span class="nobr">Order Total</span></th>
+                                    <th>Status</th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for  order in orders%}
+                                    <tr class="first last odd">
+                                        <td>{{order.id}}</td>
+                                        <td><span class="nobr">{{order.date|date('Y-m-d H:i:s')}}</span></td>
+                                        <td>{{order.shippingAddress.firstname}} {{order.shippingAddress.lastname}}</td>
+                                        <td><span class="price"></span>{{order.cart.total}} $</td>
+                                        <td><em>{{order.state.label}}</em></td>
+                                        <td class="a-center last">
+                                            <span class="nobr">
+                                                <a href="{{path('shop_shop_review',{'ordid' : order.id})}}">View Order</a>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                            <div align="center">
+                       {{ knp_pagination_render(orders) }}
+                            </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {% include 'ShopShopBundle::CartSidebar/leftSidebar.html.twig' %}
+    </div>
+</div>
+{%endblock%}

@@ -1,38 +1,22 @@
 {% extends 'ShopShopBundle::bundle-layout.html.twig' %}
 {%block container%}
-<div class="main-container col2-left-layout">
+
+<div class="main-container col2-right-layout">
     <div class="main">
         <div class="col-main">
-            {% for flashMessage in app.session.flashbag.get('notice-failure') %}
-                <div id="messages_product_view">
-                    <ul class="messages">
-                        <li class="error-msg">
-                            <ul>
-                                <li><span>{{flashMessage}}</span></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                {% endfor %}
-
-                {% for flashMessage in app.session.flashbag.get('notice-success') %}
-                <div id="messages_product_view">
-                    <ul class="messages">
-                        <li class="success-msg">
-                            <ul>
-                                <li><span>{{flashMessage}}</span></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                {% endfor %}
-            <div class="account-create">
-                <div class="page-title">
-                    <h1>Account Information</h1>
-                </div>
-                <form action="{{ path('shop_shop_billing') }}" {{ form_enctype(form) }} method="POST" class="address_form_type">
-                    <div class="fieldset">
-                        <h2 class="legend">Billing address</h2>
+            <div class="page-title">
+                <h1>Checkout</h1>
+            </div>
+            <ol class="opc" id="checkoutSteps">
+                <li id="opc-billing" class="section slide2 allow active">
+                    <div class="step-title">
+                        <span class="number">2 / 5</span>
+                        <h2>Shipping Information</h2>
+                        <a href="#">Edit</a>
+                    </div>
+                    <div id="checkout-step-billing" class="step a-item">
+                        <form action="{{ path('shop_shop_checkout2') }}" {{ form_enctype(form) }} method="POST" class="address_form_type">
+                        {{ form_errors(form) }}
                         <ul class="form-list">
                             <li class="fields">
                                 <div class="customer-name">
@@ -82,17 +66,24 @@
                                                     </div>
                                                 </div>
                                             </li>
+                                            <li class="control">
+                                            </li>
                                         </ul>
-                                    </div>
                                     {{form_rest(form)}}
                                     <div class="buttons-set">
                                         <p class="required">* Required Fields</p>
+                                        <p class="back-link"><a href="{{path('shop_shop_checkout1')}}" ><small>« </small>Back</a></p>
                                         <button type="submit" title="Submit" class="button"><span><span>Submit</span></span></button>
                                     </div>
                                 </form>
-            </div>
+                    </div>
+                </li>
+            </ol>
         </div>
-        {% include 'ShopShopBundle::CartSidebar/leftSidebar.html.twig' %}
+
     </div>
 </div>
+
+
+
 {%endblock%}

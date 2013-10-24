@@ -3,6 +3,29 @@
 <div class="main-container col1-layout">
     <div class="main">
         <div class="col-main">
+            {% for flashMessage in app.session.flashbag.get('notice-failure') %}
+                <div id="messages_product_view">
+                    <ul class="messages">
+                        <li class="error-msg">
+                            <ul>
+                                <li><span>{{flashMessage}}</span></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                {% endfor %}
+
+                {% for flashMessage in app.session.flashbag.get('notice-success') %}
+                <div id="messages_product_view">
+                    <ul class="messages">
+                        <li class="success-msg">
+                            <ul>
+                                <li><span>{{flashMessage}}</span></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                {% endfor %}
             <div class="cart">
                 <div class="page-title title-buttons">
                     <h1>Shopping Cart</h1>
@@ -13,6 +36,7 @@
                         </li>
                     </ul>
                 </div>
+                    {% set arr = [] %}
                 <form action="{{path('shop_shop_updateCart')}}" method="post">
                     
                     <fieldset>
@@ -52,7 +76,7 @@
                             </tfoot>
                             <tbody>
                                 {%if cart.getcartitems.snapshot%}
-                                {%for product in cart.getcartItems%}
+                                {%for product in cart.getcartItems%}                        
                                         {% if loop.index % 2 !=0 %}
                                         <tr class="first odd">
                                             <td>
@@ -75,8 +99,8 @@
                                                 </span>
                                             </td>
                                             <td class="a-center">
-                                                <input name="id" type="hidden" value = "{{product.id}}"/>
-                                                <input name="quantity" id="{{loop.index}}" value="{{product.getQuantity}}" size="4" title="Qty" class="input-text qty" maxlength="2" />
+                                                <input name="prodid[{{product.getId}}]" value="{{product.getId}}" type='hidden'>
+                                                <input name="prodqty[{{product.getId}}]" value="{{product.getQuantity}}" size="4" title="Qty" class="input-text qty" maxlength="2" />
                                             </td>
                                             <td class="a-right">
                                                 <span class="cart-price">
@@ -113,8 +137,8 @@
                                                 </span>
                                             </td>
                                             <td class="a-center">
-                                                <input name="id" type="hidden" value = "{{product.id}}"/>
-                                                <input name="quantity" id="{{loop.index}}" value="{{product.getQuantity}}" size="4" title="Qty" class="input-text qty" maxlength="2" />
+                                                <input name="prodid[]" value="{{product.getId}}" type='hidden'>
+                                                <input name="prodqty[{{product.getId}}]" value="{{product.getQuantity}}" size="4" title="Qty" class="input-text qty" maxlength="2" />
                                             </td>
                                             <td class="a-right">
                                                 <span class="cart-price">

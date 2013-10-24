@@ -1,4 +1,6 @@
-{% extends '::base.html.twig' %}
+{%set standalone = false%}
+{% extends standalone ? "::adminbase.html.twig" : "::base.html.twig" %}
+
 {% block container%}
 
 {% endblock %}

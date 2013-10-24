@@ -1,5 +1,14 @@
-{%if cart.getCartItems.snapshot%}
-                    <div class="col-right sidebar">
+<div class="col-left sidebar">
+            <div class="block block-account">
+                <div class="block-title">
+                    <strong><span>My Account</span></strong>
+                </div>
+                <div class="block-content">
+                    {% set menuItem = knp_menu_get('ShopShopBundle:Builder:accountMenu') %}
+                        {{ knp_menu_render(menuItem) }}
+                </div>
+            </div>
+            {%if cart.getCartItems.snapshot%}
                         <div class="block block-cart">
                             <div class="block-title">
                                 <strong><span>My Cart</span></strong>
@@ -42,9 +51,8 @@
                                             </ol>
                                         </div>
                                     </div>
-                                </div>
                                   {%else%}
-                                <div class="col-right sidebar">
+                               
                                     <div class="block block-cart">
                                         <div class="block-title">
                                             <strong><span>My Cart</span></strong>
@@ -53,5 +61,6 @@
                                             <p class="empty">You have no items in your shopping cart.</p>
                                         </div>
                                     </div>
-                                </div>
+                               
                 {%endif%}
+        </div>

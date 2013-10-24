@@ -21,7 +21,7 @@ shop_shop_orders:
     pattern: /orders/
     defaults: { _controller: ShopShopBundle:Dashboard:show_orders}
     requirements:
-        _method: GET
+        _method: GET|POST
         
 shop_shop_order:
     pattern: /orders/ordid={ordid}
@@ -39,6 +39,12 @@ shop_shop_shipping:
 shop_shop_billing:
     pattern: /billing
     defaults: { _controller: ShopShopBundle:Dashboard:show_billing}
+    requirements:
+        _method: GET|POST
+        
+shop_shop_review  :
+    pattern: /review/{ordid}
+    defaults: { _controller: ShopShopBundle:Dashboard:viewOrder,ordid : "none"}
     requirements:
         _method: GET|POST
         
@@ -73,5 +79,44 @@ shop_shop_updateCart:
   defaults: {_controller: ShopShopBundle:Cart:updateCart}
   requirements:
        _method:  POST
+       
+shop_shop_checkout1:
+  pattern: /checkout/billing
+  defaults: {_controller: ShopShopBundle:Checkout:checkoutBilling}
+  requirements:
+       _method:  GET|POST
 
-  
+shop_shop_checkout2:
+  pattern: /checkout/shipping
+  defaults: {_controller: ShopShopBundle:Checkout:checkoutShipping}
+  requirements:
+       _method:  GET|POST
+
+shop_shop_checkout3:
+  pattern: /checkout/shippingmethod
+  defaults: {_controller: ShopShopBundle:Checkout:shippingMethod}
+  requirements:
+       _method:  GET|POST
+
+shop_shop_checkout4:
+  pattern: /checkout/payment
+  defaults: {_controller: ShopShopBundle:Checkout:paymentMethod}
+  requirements:
+       _method:  GET|POST
+
+shop_shop_checkout5:
+  pattern: /checkout/review
+  defaults: {_controller: ShopShopBundle:Checkout:review}
+  requirements:
+       _method:  GET|POST
+       
+shop_shop_adminuserlist:
+  pattern: /admin
+  defaults: {_controller: ShopShopBundle:Admin:userList}
+
+shop_shop_removeuser:
+  pattern: /removeuser{id}
+  defaults: {_controller: ShopShopBundle:Admin:removeUser}
+  requirements:
+    _method: GET|POST
+    id: \d+

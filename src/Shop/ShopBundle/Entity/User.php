@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity (repositoryClass="Shop\ShopBundle\Entity\Repository\UserRepository")
  * @ORM\Table(name="fos_user")
  */
 class User extends BaseUser {
@@ -236,11 +236,4 @@ class User extends BaseUser {
     {
         return $this->billingAddress;
     }
-
-    /**
-     * Set cart
-     *
-     * @param \Shop\ShopBundle\Entity\Cart $cart
-     * @return User
-     */
 }

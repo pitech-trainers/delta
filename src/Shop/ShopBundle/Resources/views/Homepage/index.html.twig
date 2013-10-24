@@ -4,6 +4,29 @@
     <div class="main">
         <div class="col-wrapper">
             <div class="col-main">
+                {% for flashMessage in app.session.flashbag.get('notice-failure') %}
+                <div id="messages_product_view">
+                    <ul class="messages">
+                        <li class="error-msg">
+                            <ul>
+                                <li><span>{{flashMessage}}</span></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                {% endfor %}
+
+                {% for flashMessage in app.session.flashbag.get('notice-success') %}
+                <div id="messages_product_view">
+                    <ul class="messages">
+                        <li class="success-msg">
+                            <ul>
+                                <li><span>{{flashMessage}}</span></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                {% endfor %}
                 <div class="box best-selling">
                     <h3>Latest Products</h3>
 
