@@ -25,13 +25,13 @@
                                  {%if cart|length>0  %}
                                    {%for product in cart.getcartItems %}
                                                 <li class="item">
-                                                    <a href="{{path ('shop_shop_productpage', {'id' : product.getProductId.categoryid.id , 'productid':  product.getProductId.id})}}" title="{{ product.getProductId.title}}" class="product-image">
-                                                        <img src="{{asset ('bundles/shopshop/image/' ~  product.getProductId.filename)}}" width="50" height="50" alt="{{ product.getProductId.title}}" />
+                                                    <a href="{{path ('shop_shop_productpage', {'id' : product.getProduct.categoryid.id , 'productid':  product.getProduct.id})}}" title="{{ product.getProduct.title}}" class="product-image">
+                                                        <img src="{{asset ('bundles/shopshop/image/' ~  product.getProduct.filename)}}" width="50" height="50" alt="{{ product.getProduct.title}}" />
                                                     </a>
                                                     <div class="product-details">
                                                         <a href="{{path ('shop_shop_removeitem', {'id' : product.getId})}}" title="Remove This Item" class="btn-remove">Remove This Item</a>
                                                         <a href="/shoppingCart/" title="Edit item" class="btn-edit">Edit item</a>
-                                                        <p class="product-name"><a href="{{path ('shop_shop_productpage', {'id' : product.getProductId.categoryid.id , 'productid':  product.getProductId.id})}}">{{product.getTitle}}</a></p>
+                                                        <p class="product-name"><a href="{{path ('shop_shop_productpage', {'id' : product.getProduct.categoryid.id , 'productid':  product.getProduct.id})}}">{{product.getTitle}}</a></p>
                                                         <strong>{{product.getQuantity}}</strong> x
                                                         <span class="price">{{product.getPrice}}US$</span>
                                                     </div>

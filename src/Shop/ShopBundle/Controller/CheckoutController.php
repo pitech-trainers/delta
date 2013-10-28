@@ -6,27 +6,17 @@ use FOS\UserBundle\Model\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Shop\ShopBundle\Entity\Address as address;
+use Shop\ShopBundle\Entity\Address as Address;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Shop\ShopBundle\Form\Type\AddressFormType as addressform;
 
 class CheckoutController extends Controller {
 
-    public function check() {
-        if (!isset($_POST['submit'])) {
-            return $this->redirect($this->generateUrl('shop_shop_checkout1'));
-        }
-    }
-
     public function checkoutBillingAction(Request $request) {
 
         $user = $this->container->get('security.context')->getToken()->getUser();
-        if (!is_object($user) || !$user instanceof UserInterface) {
-            throw new AccessDeniedException('This user does not have access to this section.');
-        }
-
         if ($user->getBillingAddress() == null) {
-            $address = new address;
+            $address = new Address;
         } else {
             $address = $user->getBillingAddress();
         }
@@ -45,13 +35,7 @@ class CheckoutController extends Controller {
                     $order->setBillingAddress($address);
                     $em->flush();
                 } else {
-                    $address = new \Shop\ShopBundle\Entity\Address();
-                    $address->setAddress($post['address']);
-                    $address->setCity($post['city']);
-                    $address->setCountry($post['country']);
-                    $address->setFirstname($post['firstname']);
-                    $address->setLastname($post['lastname']);
-                    $address->setEmail($post['email']);
+//                    $address = new \Shop\ShopBundle\Entity\Address();
                     $user->setBillingAddress($address);
                     $em->persist($address);
                     $em->flush();
@@ -73,14 +57,9 @@ class CheckoutController extends Controller {
     }
 
     public function checkoutShippingAction(Request $request) {
-        $this->check();
         $user = $this->container->get('security.context')->getToken()->getUser();
-        if (!is_object($user) || !$user instanceof UserInterface) {
-            throw new AccessDeniedException('This user does not have access to this section.');
-        }
-
         if ($user->getShippingAddress() == null) {
-            $address2 = new address;
+            $address2 = new Address;
         } else {
             $address2 = $user->getShippingAddress();
         }
@@ -95,13 +74,6 @@ class CheckoutController extends Controller {
                 if ($address2->getId() != null) {
                     $em->flush();
                 } else {
-                    $address2 = new \Shop\ShopBundle\Entity\Address();
-                    $address2->setAddress($post['address']);
-                    $address2->setCity($post['city']);
-                    $address2->setCountry($post['country']);
-                    $address2->setFirstname($post['firstname']);
-                    $address2->setLastname($post['lastname']);
-                    $address2->setEmail($post['email']);
                     $user->setShippingAddress($address2);
                     $em->persist($address2);
                     $em->flush();
@@ -119,10 +91,6 @@ class CheckoutController extends Controller {
     public function shippingMethodAction(Request $request) {
        
         $user = $this->container->get('security.context')->getToken()->getUser();
-        if (!is_object($user) || !$user instanceof UserInterface) {
-            throw new AccessDeniedException('This user does not have access to this section.');
-        }
-        
         if ('POST' === $request->getMethod()) {
             $em = $this->getDoctrine()->getManager();
             $order = $em->getRepository('ShopShopBundle:Order')->getOrder($em, $user);
@@ -137,10 +105,6 @@ class CheckoutController extends Controller {
     public function paymentMethodAction(Request $request) {
         
         $user = $this->container->get('security.context')->getToken()->getUser();
-        if (!is_object($user) || !$user instanceof UserInterface) {
-            throw new AccessDeniedException('This user does not have access to this section.');
-        }
-        
         if ('POST' === $request->getMethod()) {
             $em = $this->getDoctrine()->getManager();
             $order = $em->getRepository('ShopShopBundle:Order')->getOrder($em, $user);
@@ -154,9 +118,6 @@ class CheckoutController extends Controller {
 
     public function reviewAction(Request $request) {
         $user = $this->container->get('security.context')->getToken()->getUser();
-        if (!is_object($user) || !$user instanceof UserInterface) {
-            throw new AccessDeniedException('This user does not have access to this section.');
-        }
         $em = $this->getDoctrine()->getManager();
         $order = $em->getRepository('ShopShopBundle:Order')->getOrder($em, $user);
         
@@ -174,7 +135,7 @@ class CheckoutController extends Controller {
                 $order->processOrder($state);
                 $items=$order->getCart()->getCartItems();
                 foreach ($items as $item){
-                    $item->getProductId()->setStock($item->getProductId()->getStock()-$item->getQuantity());
+                    $item->getProduct()->setStock($item->getProduct()->getStock()-$item->getQuantity());
                 }
                 $em->flush();
                 $em->getRepository(('ShopShopBundle:Cart'))->createCart($user,$em);

@@ -3,7 +3,7 @@
 namespace Shop\ShopBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Shop\ShopBundle\Entity\Order as order;
+use Shop\ShopBundle\Entity\Order as Order;
 
 /**
  * OrderRepository
@@ -16,12 +16,13 @@ class OrderRepository extends EntityRepository
     public function getOrder($em,$user,$cart=null,$state=null){
         $qd = $this->createQueryBuilder('o')
                 ->select('o')
-                ->where('o.user='.$user->getId())
+                ->where('o.user=:user_id')
                 ->andWhere('o.active =1')
-                ->andWhere('o.state =1');
-        $result=$qd->getQuery()->getResult();
-        if (empty($result)){
-            $result =new order();
+                ->andWhere('o.state =1')
+                ->setParameter('user_id', $user->getId());
+        $result=$qd->getQuery()->getOneOrNullResult();
+        if ($result==null){
+            $result =new Order();
             $date = date('m/d/Y h:i:s a', time());
             $result->setUser($user);
             $result->setCart($cart);
@@ -29,30 +30,31 @@ class OrderRepository extends EntityRepository
             $result->setState($state);
             $result->setDate($date);
             $em->persist($result);
-        }else{
-            $result=$result[0];
-        }
+        };
         return $result;
         
     }
     public function getAllForUser($user){
         $qd = $this->createQueryBuilder('o')
                 ->select('o')
-                ->where('o.user='.$user->getId())
-                ->andWhere('o.active =1');
+                ->where('o.user=:user_id')
+                ->andWhere('o.active =1')
+                ->setParameter('user_id', $user->getId());
         
         return $qd->getQuery()->getResult();       
     }
     
-    public function getByIdForUser($user,$ordid){
+    public function getByIdForUser($user,$order_id){
         $qd = $this->createQueryBuilder('o')
                 ->select('o')
-                ->where('o.user='.$user->getId())
-                ->where('o.id='.$ordid)
-                ->andWhere('o.active =1');
+                ->where('o.user=:user_id')
+                ->andwhere('o.id=:order_id')
+                ->andWhere('o.active =1')
+                ->setParameter('user_id', $user->getId())
+                ->setParameter('order_id', $order_id);
         $result=$qd->getQuery()->getResult();     
         return $result[0];
     }
     
-
+ 
 }

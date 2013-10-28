@@ -24,12 +24,17 @@ shop_shop_orders:
         _method: GET|POST
         
 shop_shop_order:
-    pattern: /orders/ordid={ordid}
+    pattern: /orders/order_id={order_id}
     defaults: { _controller: ShopShopBundle:Dashboard:show_order}
     requirements:
         _method: GET
-        ordid: \d+
+        order_id: \d+
         
+shop_shop_shipping:
+    pattern: /shipping
+    defaults: { _controller: ShopShopBundle:Dashboard:show_shipping}
+    requirements:
+        _method: POST|GET
 shop_shop_shipping:
     pattern: /shipping
     defaults: { _controller: ShopShopBundle:Dashboard:show_shipping}
@@ -43,20 +48,11 @@ shop_shop_billing:
         _method: GET|POST
         
 shop_shop_review  :
-    pattern: /review/{ordid}
-    defaults: { _controller: ShopShopBundle:Dashboard:viewOrder,ordid : "none"}
+    pattern: orders/review/{order_id}
+    defaults: { _controller: ShopShopBundle:Dashboard:viewOrder,order_id : "none"}
     requirements:
         _method: GET|POST
         
-        
-shop_shop_addtocart:
-    pattern: /{catid}/product/{id}
-    defaults: { _controller: ShopShopBundle:Cart:addtocart }
-    requirements:
-        _method:  POST
-        id: \d+
-        catid: \d+
-
 shop_shop_removeitem:
     pattern: /remove/{id}
     defaults: { _controller: ShopShopBundle:Cart:remove }

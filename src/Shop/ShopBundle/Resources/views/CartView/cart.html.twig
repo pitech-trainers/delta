@@ -80,14 +80,14 @@
                                         {% if loop.index % 2 !=0 %}
                                         <tr class="first odd">
                                             <td>
-                                                <a href="{{path ('shop_shop_productpage', {'id' : product.getProductId.categoryid.id , 'productid':  product.getProductId.id})}}" title="{{ product.getProductId.title}}" 
-                                                   class="product-image"><img src="{{asset ('bundles/shopshop/image/' ~  product.getProductId.filename)}}"
-                                                                           alt="{{ product.getProductId.title}}" height="75" width="75" />
+                                                <a href="{{path ('shop_shop_productpage', {'id' : product.getProduct.categoryid.id , 'productid':  product.getProduct.id})}}" title="{{ product.getProduct.title}}" 
+                                                   class="product-image"><img src="{{asset ('bundles/shopshop/image/' ~  product.getProduct.filename)}}"
+                                                                           alt="{{ product.getProduct.title}}" height="75" width="75" />
                                                 </a>
                                             </td>
                                             <td>
                                                 <h2 class="product-name">
-                                                    <a href="{{path ('shop_shop_productpage', {'id' : product.getProductId.categoryid.id , 'productid':  product.getProductId.id})}}">{{ product.getProductId.title}}</a>
+                                                    <a href="{{path ('shop_shop_productpage', {'id' : product.getProduct.categoryid.id , 'productid':  product.getProduct.id})}}">{{ product.getProduct.title}}</a>
                                                 </h2>
                                                 <dl class="item-options">
                                                     <dt></dt>
@@ -118,14 +118,14 @@
 
                                     <tr class="last even">
                                         <td>
-                                                <a href="{{path ('shop_shop_productpage', {'id' : product.getProductId.categoryid.id , 'productid':  product.getProductId.id})}}" title="{{ product.getProductId.title}}" 
-                                                   class="product-image"><img src="{{asset ('bundles/shopshop/image/' ~  product.getProductId.filename)}}"
-                                                                           alt="{{ product.getProductId.title}}" height="75" width="75" />
+                                                <a href="{{path ('shop_shop_productpage', {'id' : product.getProduct.categoryid.id , 'productid':  product.getProduct.id})}}" title="{{ product.getProduct.title}}" 
+                                                   class="product-image"><img src="{{asset ('bundles/shopshop/image/' ~  product.getProduct.filename)}}"
+                                                                           alt="{{ product.getProduct.title}}" height="75" width="75" />
                                                 </a>
                                             </td>
                                             <td>
                                                 <h2 class="product-name">
-                                                    <a href="{{path ('shop_shop_productpage', {'id' : product.getProductId.categoryid.id , 'productid':  product.getProductId.id})}}">{{ product.getProductId.title}}</a>
+                                                    <a href="{{path ('shop_shop_productpage', {'id' : product.getProduct.categoryid.id , 'productid':  product.getProduct.id})}}">{{ product.getProduct.title}}</a>
                                                 </h2>
                                                 <dl class="item-options">
                                                     <dt></dt>

@@ -26,9 +26,9 @@ class CartItem {
 
     /**
      * @ORM\ManyToOne(targetEntity="Product")
-     * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="product", referencedColumnName="id")
      */
-    protected $product_id;
+    protected $product;
 
     /**
      * @ORM\Column(type="string")
@@ -45,17 +45,15 @@ class CartItem {
      */
     protected $price;
 
-    public function newItem($productId, $price = null, $title = null, $cart = null, $quantity) {
+    public function newItem($product, $price = null, $title = null, $cart = null, $quantity) {
         $cartItem = new CartItem();
         $cartItem->setPrice($price);
         $cartItem->setTitle($title);
         $cartItem->setQuantity($quantity);
         $cartItem->setCart($cart);
-        $cartItem->setProductId($productId);
+        $cartItem->setProduct($product);
         return $cartItem;
     }
-
-
 
 
     /**
@@ -166,20 +164,28 @@ class CartItem {
      * @param \Shop\ShopBundle\Entity\Product $productId
      * @return CartItem
      */
-    public function setProductId(\Shop\ShopBundle\Entity\Product $productId = null)
+
+
+    /**
+     * Set product
+     *
+     * @param \Shop\ShopBundle\Entity\Product $product
+     * @return CartItem
+     */
+    public function setProduct(\Shop\ShopBundle\Entity\Product $product = null)
     {
-        $this->product_id = $productId;
+        $this->product = $product;
     
         return $this;
     }
 
     /**
-     * Get product_id
+     * Get product
      *
      * @return \Shop\ShopBundle\Entity\Product 
      */
-    public function getProductId()
+    public function getProduct()
     {
-        return $this->product_id;
+        return $this->product;
     }
 }

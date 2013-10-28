@@ -16,10 +16,10 @@ class CartRepository extends EntityRepository {
     public function getCartForUser($userId, $active = true) {
         $qd = $this->createQueryBuilder('c')
                 ->select('c')
-                ->where('c.user= :user_id')
+                ->where('c.user=:user_id')
                 ->setParameter('user_id', $userId);
         if (false === is_null($active))
-            $qd->andWhere('c.active = :active')
+            $qd->andWhere('c.active =:active')
                     ->setParameter('active', 1);
         return $qd->getQuery()
                         ->getResult();

@@ -11,7 +11,6 @@ class PageController extends Controller {
     public function showproductAction($id, $productid) {
 
         $em = $this->getDoctrine()->getManager();
-        $em->getRepository('ShopShopBundle:Product')->findAll();
         $user=$this->container->get('security.context')->getToken()->getUser();
         $cart=$em->getRepository('ShopShopBundle:Cart')->getGeneralCart($em,$user);
         $category = $em->getRepository('ShopShopBundle:Category')->find($id);
