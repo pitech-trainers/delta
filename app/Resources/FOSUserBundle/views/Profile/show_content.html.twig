@@ -16,7 +16,7 @@
                                     <div class="box-account box-recent">
                                         <div class="box-head">
                                             <h2>Recent Orders</h2>
-                                            <a href="#">View All</a>
+                                            <a href="{{path('shop_shop_orders')}}">View All</a>
                                         </div>
                                         {#   
                                         {% if orders%}    
@@ -86,10 +86,11 @@
                                                         {% if user.billingAddress%}
                                                         <h4>Billing Address</h4>
                                                         <address>
-                                                            {{user.billingAddress.firstname}}{{user.billingAddress.lastname}}<br />
-                                                            {{user.billingAddress.city}},{{user.billingAddress.address}}<br />
-                                                            {{user.billingAddress.country}}<br />
-                                                            T: {{user.mobile}}  
+                                                            Name: <i><b>{{user.billingAddress.firstname}} {{user.billingAddress.lastname}}</b></i><br />
+                                                            City: <i><b>{{user.billingAddress.city}},{{user.billingAddress.address}}</b></i><br />
+                                                            Country: <i><b>{{user.billingAddress.country}}</b></i><br />
+                                                            Email: <i><b>{{user.billingAddress.email}}</b></i><br />
+                                                            T: <i><b>{{user.mobile}}</b></i>  
                                                         </address>
                                                         {%else%}
                                                         There is no adress set.
@@ -101,10 +102,11 @@
                                                         {% if user.shippingAddress%}
                                                         <h4>Shipping Address</h4>
                                                         <address>
-                                                            {{user.shippingAddress.firstname}}{{user.shippingAddress.lastname}}<br />
-                                                            {{user.shippingAddress.city}},{{user.shippingAddress.address}}<br />
-                                                            {{user.shippingAddress.country}}<br />
-                                                            T: {{user.mobile}}  
+                                                            Name: <i><b>{{user.shippingAddress.firstname}} {{user.shippingAddress.lastname}}</b></i><br />
+                                                            City: <i><b>{{user.shippingAddress.city}},{{user.shippingAddress.address}}</b></i><br />
+                                                            Country: <i><b>{{user.shippingAddress.country}}</b></i><br />
+                                                            Email: <i><b>{{user.shippingAddress.email}}</b></i><br />
+                                                            T: <i><b>{{user.mobile}}</b></i>  
                                                         </address>
                                                         {%else%}
                                                         There is no adress set.

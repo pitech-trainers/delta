@@ -21,15 +21,20 @@ shop_shop_orders:
     pattern: /orders/
     defaults: { _controller: ShopShopBundle:Dashboard:show_orders}
     requirements:
-        _method: GET
+        _method: GET|POST
         
 shop_shop_order:
-    pattern: /orders/ordid={ordid}
+    pattern: /orders/order_id={order_id}
     defaults: { _controller: ShopShopBundle:Dashboard:show_order}
     requirements:
         _method: GET
-        ordid: \d+
+        order_id: \d+
         
+shop_shop_shipping:
+    pattern: /shipping
+    defaults: { _controller: ShopShopBundle:Dashboard:show_shipping}
+    requirements:
+        _method: POST|GET
 shop_shop_shipping:
     pattern: /shipping
     defaults: { _controller: ShopShopBundle:Dashboard:show_shipping}
@@ -42,15 +47,12 @@ shop_shop_billing:
     requirements:
         _method: GET|POST
         
-        
-shop_shop_addtocart:
-    pattern: /{catid}/product/{id}
-    defaults: { _controller: ShopShopBundle:Cart:addtocart }
+shop_shop_review  :
+    pattern: orders/review/{order_id}
+    defaults: { _controller: ShopShopBundle:Dashboard:viewOrder,order_id : "none"}
     requirements:
-        _method:  POST
-        id: \d+
-        catid: \d+
-
+        _method: GET|POST
+        
 shop_shop_removeitem:
     pattern: /remove/{id}
     defaults: { _controller: ShopShopBundle:Cart:remove }
@@ -73,5 +75,44 @@ shop_shop_updateCart:
   defaults: {_controller: ShopShopBundle:Cart:updateCart}
   requirements:
        _method:  POST
+       
+shop_shop_checkout1:
+  pattern: /checkout/billing
+  defaults: {_controller: ShopShopBundle:Checkout:checkoutBilling}
+  requirements:
+       _method:  GET|POST
 
-  
+shop_shop_checkout2:
+  pattern: /checkout/shipping
+  defaults: {_controller: ShopShopBundle:Checkout:checkoutShipping}
+  requirements:
+       _method:  GET|POST
+
+shop_shop_checkout3:
+  pattern: /checkout/shippingmethod
+  defaults: {_controller: ShopShopBundle:Checkout:shippingMethod}
+  requirements:
+       _method:  GET|POST
+
+shop_shop_checkout4:
+  pattern: /checkout/payment
+  defaults: {_controller: ShopShopBundle:Checkout:paymentMethod}
+  requirements:
+       _method:  GET|POST
+
+shop_shop_checkout5:
+  pattern: /checkout/review
+  defaults: {_controller: ShopShopBundle:Checkout:review}
+  requirements:
+       _method:  GET|POST
+       
+shop_shop_adminuserlist:
+  pattern: /admin
+  defaults: {_controller: ShopShopBundle:Admin:userList}
+
+shop_shop_removeuser:
+  pattern: /removeuser{id}
+  defaults: {_controller: ShopShopBundle:Admin:removeUser}
+  requirements:
+    _method: GET|POST
+    id: \d+

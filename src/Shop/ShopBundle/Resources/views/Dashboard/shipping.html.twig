@@ -3,6 +3,29 @@
 <div class="main-container col2-left-layout">
     <div class="main">
         <div class="col-main">
+            {% for flashMessage in app.session.flashbag.get('notice-failure') %}
+                <div id="messages_product_view">
+                    <ul class="messages">
+                        <li class="error-msg">
+                            <ul>
+                                <li><span>{{flashMessage}}</span></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                {% endfor %}
+
+                {% for flashMessage in app.session.flashbag.get('notice-success') %}
+                <div id="messages_product_view">
+                    <ul class="messages">
+                        <li class="success-msg">
+                            <ul>
+                                <li><span>{{flashMessage}}</span></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                {% endfor %}
             <div class="account-create">
                 <div class="page-title">
                     <h1>Account Information</h1>
@@ -70,22 +93,7 @@
                                 </form>
             </div>
         </div>
-        <div class="col-left sidebar">
-            <div class="block block-account">
-                <div class="block-title">
-                    <strong><span>My Account</span></strong>
-                </div>
-                <div class="block-content">
-                    {% set menuItem = knp_menu_get('ShopShopBundle:Builder:accountMenu') %}
-                        {{ knp_menu_render(menuItem) }}
-                </div>
-            </div>
-            <div class="block block-cart">
-                        
-            
-                            
-            </div>
-        </div>
+        {% include 'ShopShopBundle::CartSidebar/leftSidebar.html.twig' %}
     </div>
 </div>
 {%endblock%}

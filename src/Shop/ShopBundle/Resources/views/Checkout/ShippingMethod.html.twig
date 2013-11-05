@@ -1,0 +1,51 @@
+{% extends 'ShopShopBundle::bundle-layout.html.twig' %}
+{%block container%}
+
+<div class="main-container col2-right-layout">
+    <div class="main">
+        <div class="col-main">
+            <div class="page-title">
+                <h1>Checkout</h1>
+            </div>
+            <ol class="opc" id="checkoutSteps">
+                <li id="opc-shipping_method" class="section slide4 allow active">
+                    <div class="step-title">
+                        <span class="number">3 / 5</span>
+                        <h2>Shipping Method</h2>
+                        <a href="#">Edit</a>
+                    </div>
+                    <div id="checkout-step-shipping_method" class="step a-item">
+                        <form id="co-shipping-method-form" action="{{ path('shop_shop_checkout3') }}" method="post">
+                            <fieldset>
+                                <dl class="sp-methods" id="checkout-payment-method-load">
+                                    
+                                        <li class="control">
+                                        <input name="shipping_method"  value="1" checked="checked" title="Post Office" class="radio" type="radio" />
+                                        <label for="shipping_method:1">Post Office 15$</label>
+                                    </li>
+                                    <li class="control">
+                                        <input name="shipping_method"  value="2" title="Chinese biker" class="radio" type="radio">
+                                        <label for="shipping_method:2">Chinese biker 10$</label>
+                                    </li>
+                                    <li class="control">
+                                        <input name="shipping_method"  value="3" title="Courier" class="radio" type="radio">
+                                        <label for="shipping_method:3">Courier 30$</label> 
+                                    </li>
+                                  
+                                </dl>
+                            </fieldset>
+                            <div class="buttons-set" id="payment-buttons-container">
+                                <p class="required">* Required Fields</p>
+                                <p class="back-link"><a href="{{path('shop_shop_checkout2')}}" ><small>« </small>Back</a></p>
+                                <button type="submit" name="submit" class="button"><span><span>Continue</span></span></button>
+                            </div>
+                        </form>
+
+                    </div>
+                </li>
+            </ol>
+        </div>
+
+    </div>
+</div>
+{%endblock%}

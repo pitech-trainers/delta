@@ -1,0 +1,173 @@
+{% extends 'ShopShopBundle::bundle-layout.html.twig' %}
+{%block container%}
+<div class="main-container col2-right-layout">
+    <div class="main">
+        <div class="col-main">
+            <div class="page-title">
+                <h1>Order details</h1>
+            </div>
+            <ol class="opc" id="checkoutSteps">
+                <li id="opc-review" class="section slide6 allow active">
+                    <div class="step-title">
+                        <!--<span class="number"></span>-->
+                        <h2>Order number: <font color ="red">{{order.getId()}}</font></h2>
+                        <a href="#">Edit</a>
+                    </div>
+                    <table id="shopping-cart-table" class="data-table cart-table" style="">
+                        <colgroup>
+                            <col width="1" />
+                            <col />
+                            <col width="1" />
+                            <col width="1" />
+                            <col width="1" />
+                            <col width="1" />
+                            <col width="1" />
+                        </colgroup>
+                        <thead>
+                            <tr class="first last">
+                                <th rowspan="1">&nbsp;</th>
+                                <th rowspan="1"><span class="nobr">Product Name</span></th>
+                                <th class="a-center" colspan="1"><span class="nobr">Unit Price</span></th>
+                                <th rowspan="1" class="a-center">Qty</th>
+                                <th class="a-center" colspan="1">Subtotal</th>
+                            </tr>   
+                        </thead>
+                        <tfoot>
+                            <tr class="first last">
+                                <td colspan="50" class="a-right last">
+                                    <div class="box-head">                                       
+                                        <h5>Subtotal:{{order.cart.getTotal()}} <font color="red">$ </font></h5>
+                                        <h5>Shipping method:<font color="red">  {{order.shippingMethod.getlabel()}}</font   > , Price:<font color="red"> {{order.shippingMethod.getprice()}}  $ </font></h5>
+                                        <h5>Payment method: <font color="red">{{order.paymentMethod.getlabel()}}</font></h5>
+                                        <h1>Total: {{order.cart.getTotal() + order.shippingMethod.getprice()}} <font color="red">$</font></h1>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+
+                            {%if order.cart.getcartitems.snapshot%}
+                                {%for product in order.cart.getcartItems%}
+                                    {% if loop.index % 2 !=0 %}
+                                    <tr class="first odd">
+                                        <td>
+                                            <a href="{{path ('shop_shop_productpage', {'id' : product.getProduct.categoryid.id , 'productid':  product.getProduct.id})}}" 
+                                               title="{{ product.getProduct.title}}" 
+                                               class="product-image"><img src="{{asset ('bundles/shopshop/image/' ~  product.getProduct.filename)}}"
+                                                                       alt="{{ product.getProduct.title}}" height="75" width="75" />
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <h2 class="product-name">
+                                                <a href="{{path ('shop_shop_productpage', {'id' : product.getProduct.categoryid.id , 'productid':  product.getProduct.id})}}">{{ product.getProduct.title}}</a>
+                                            </h2>
+                                            <dl class="item-options">
+                                                <dt></dt>
+                                            </dl>
+                                        </td>
+                                        <td class="a-right">
+                                            <span class="cart-price">
+                                                <span class="price">{{product.getPrice}} $</span>
+                                            </span>
+                                        </td>
+                                        <td class="a-center">
+                                            <span class="quantity">{{product.getQuantity}}</span>
+                                        </td>
+                                        <td class="a-right">
+                                            <span class="cart-price">
+                                                <span class="price">{{product.getPrice *product.getquantity}} $</span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                <input type="hidden" name="cart_id" value="" />
+
+                                {%else%}
+
+                                <tr class="last even">
+                                    <td>
+                                            <a href="{{path ('shop_shop_productpage', {'id' : product.getProduct.categoryid.id , 'productid':  product.getProduct.id})}}" 
+                                               title="{{ product.getProduct.title}}" 
+                                               class="product-image"><img src="{{asset ('bundles/shopshop/image/' ~  product.getProduct.filename)}}"
+                                                                       alt="{{ product.getProduct.title}}" height="75" width="75" />
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <h2 class="product-name">
+                                                <a href="{{path ('shop_shop_productpage', {'id' : product.getProduct.categoryid.id , 'productid':  product.getProduct.id})}}">{{ product.getProduct.title}}</a>
+                                            </h2>
+                                            <dl class="item-options">
+                                                <dt></dt>
+                                            </dl>
+                                        </td>
+                                        <td class="a-right">
+                                            <span class="cart-price">
+                                                <span class="price">{{product.getPrice}} $</span>
+                                            </span>
+                                        </td>
+                                        <td class="a-center">
+                                            <span class="quantity">{{product.getQuantity}}</span>
+                                        </td>
+                                        <td class="a-right">
+                                            <span class="cart-price">
+                                                <span class="price">{{product.getPrice *product.getquantity}} $</span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                            </tbody>
+                            {%endif%}   
+                                {%endfor%}
+                                {%endif%} 
+                    </table>
+                    <div class="box-account box-info">
+                        <div class="box-head">
+                            <h2>Address information:</h2>
+                        </div>
+
+                        <div class="col2-set">
+                            <div class="box">
+                                <div class="box-content">
+                                    <div class="col-1">
+                                        <h4>Billing Address</h4>
+                                        <address>
+                                           <br />Name: <i><b>{{order.billingaddress.getfirstname()}} {{order.billingaddress.getlastname()}}</b></i>  
+                                           <br />Email: <i><b>{{order.billingaddress.getEmail()}}</b></i>
+                                           <br />City: <i><b>{{order.billingaddress.getcity()}} </b></i>
+                                           <br />Country: <i><b>{{order.billingaddress.getcountry()}} </b></i>
+                                           <br />Tel: <i><b>{{order.user.mobile}} </b></i>
+                                        </address>
+                                    </div>
+                                    <div class="col-2">
+                                        <h4>Shipping Address</h4>
+                                        <address>
+                                           <address>
+                                           <br />Name: <i><b>{{order.shippingaddress.getfirstname()}} {{order.shippingaddress.getlastname()}}</b></i>  
+                                           <br />Email: <i><b>{{order.shippingaddress.getEmail()}}</b></i>
+                                           <br />City: <i><b>{{order.shippingaddress.getcity()}} </b></i>
+                                           <br />Country: <i><b>{{order.shippingaddress.getcountry()}} </b></i>
+                                           <br />Tel: <i><b>{{order.user.mobile}} </b></i>
+                                        </address>
+                                        </address>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="checkout-step-review" class="step a-item">
+                        <div class="order-review" id="checkout-review-load"></div>
+                        <div class="buttons-set" id="review-buttons-container">
+                            <p class="back-link"><a href="{{path('shop_shop_checkout4')}}" ><small>« </small>Back</a></p>
+                            <form action="{{path('shop_shop_checkout5')}}" method="POST">
+                            <button type="submit" name="order" value='order' class="button"  ><span><span>Place Order</span></span></button>
+                            <button type="submit" name="cancel" value='order' class="button" ><span><span>Cancel order</span></span></button>
+                            </form>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+        </div>
+
+    </div>
+</div>  
+
+
+{%endblock%}

@@ -3,6 +3,8 @@
 namespace Shop\ShopBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Shop\ShopBundle\Entity\CartItem;
 use Shop\ShopBundle\Entity\Cart;
 
@@ -13,19 +15,23 @@ class CartController extends Controller {
                 ->getManager();
         $cart = $this->init($em);
         $em->getRepository('ShopShopBundle:Product')->findAll();
-        
+
         return $this->render('ShopShopBundle:CartView:cart.html.twig', array('cart' => $cart));
     }
 
 // add functional, vede daca nu exista cart item, adauga, altfel update la quantity. Adaugat si modificare la Total cart 18:48 16.10.2013
-    public function addAction() {
+    public function addAction(Request $request) {
+        $qty=$request->request->get('quantity');
+        $product_id=$request->request->get('id');
+        $price=$request->request->get('price');
+        $title=$request->request->get('title');
         $em = $this->getDoctrine()->getManager();
-        $product = $em->getRepository('ShopShopBundle:Product')->find($_POST['id']);
-        if (isset($_POST['quantity'])) {
-            if ($_POST['quantity'] >= 1 && $_POST['quantity'] < $product->getStock()) {
+        $product = $em->getRepository('ShopShopBundle:Product')->find($product_id);
+        if ($qty!=null) {
+            if ($qty >= 1 && $qty <= $product->getStock()) {
                 $this->get('session')->getFlashBag()->add('notice-success', 'Product added to cart');
-                $quantity = $_POST['quantity'];
-            } else if ($_POST['quantity'] != '') {
+                $quantity = $qty;
+            } else if ($qty != '') {
                 $this->get('session')->getFlashBag()->add('notice-failure', 'Invalid quantity in stock 1 product added.');
                 $quantity = 1;
             } else {
@@ -33,19 +39,18 @@ class CartController extends Controller {
                 $quantity = 1;
             }
         }
-
         $cart = $this->init($em);
         $cartItem = new CartItem();
-        $cartItem = $cartItem->newItem($product, $_POST['price'], $_POST['title'], $cart, $quantity);
+        $cartItem = $cartItem->newItem($product, $price, $title, $cart, $quantity);
         if (!$this->updateAction($quantity)) {
             $cart->addCartItem($cartItem);
             $em->flush();
             $this->updateCartTotal();
-            
+
             return $this->redirect($this->getRequest()->headers->get("referer"));
         } else {
             $em->flush();
-            
+
             return $this->redirect($this->getRequest()->headers->get("referer"));
         }
     }
@@ -65,22 +70,32 @@ class CartController extends Controller {
 
 // porneste din pagina de cart, lucreaza in functie de submitul selectat. Clear sterge cartItems prin query,
 //  update face update la cartitemul selectat.
-    public function updateCartAction() {
+    public function updateCartAction(Request $request) {
+        $clear=$request->request->get('clear');
+        $update=$request->request->get('update');
         $em = $this->getDoctrine()->getManager();
         $cart = $this->init($em);
         $i = 0;
-//        $em->getRepository('ShopShopBundle:Product')->findAll();
-        if (isset($_POST['clear'])) {
+        if ($clear !=null) {
 
             $em->getRepository('ShopShopBundle:CartItem')->clearCart($cart->getId());
             $this->updateCartTotal();
-        } elseif (isset($_POST['update'])) {
-            foreach($cart->getCartItems() as $item){
-            var_dump($_POST);
+        } elseif ($update!=null) {
+            foreach ($_POST['prodid'] as $i){
+                 $cartitem= $em->getRepository('ShopShopBundle:CartItem')->find($i);
+                 $qty=(int)$_POST['prodqty'][$i];
+                 if ($qty > $cartitem->getProduct()->getStock()){
+                     $qty=$cartitem->getProduct()->getStock();
+                     $this->get('session')->getFlashBag()->add('notice-failure', 'Invalid quantity for product: \''.$cartitem->getProduct()->getTitle().'\' maximum of stock added.');
+                 }else{
+                     $this->get('session')->getFlashBag()->add('notice-success', 'Updated quantity for product : \''.$cartitem->getProduct()->getTitle().'\'');
+                 }
+                 $cartitem->setQuantity($qty);
             }
-            die();
+            $this->updateCartTotal();
+            $em->flush();
         }
-        
+
         return $this->redirect($this->getRequest()->headers->get("referer"));
     }
 
@@ -94,7 +109,7 @@ class CartController extends Controller {
         }
         $cart->setTotal($total);
         $em->flush();
-        
+
         return $cart->getTotal();
     }
 
@@ -107,24 +122,18 @@ class CartController extends Controller {
         $cart = $this->init($em);
         foreach ($cart->getCartItems() as $item) {
             $i++;
-            if ($add == false) { //// in ramura asta nu intra niciodata?
-                //  add vine tot timpul cu valoarea lui quantity, care e 1 din pagina de category si cat ii dai in forma pe pagina de produs 
-                // merge fara probleme desi e un die in el.
-                if ($item->getProductId()->getId() == $_POST['id'][$i]) {
+            if ($add == false) { 
+                if ($item->getProduct()->getId() == $_POST['id'][$i]) {
                     $item->setQuantity($_POST['quantity'][$i]);
-                    var_dump($item->getQuantity());
-                    die();
                     $total = $total + $item->getQuantity($_POST['quantity'][$i]) * $item->getPrice($_POST['quantity'][$i]);
                     $cart->setTotal($total);
                     $em->flush();
-
                     return $this->redirect($this->getRequest()->headers->get("referer"));
                 }
-            } elseif ($item->getProductId()->getId() == $_POST['id']) {
-                if ($item->getQuantity() + $add > $item->getProductId()->getStock() || $item->getQuantity() == $item->getProductId()->getStock()) {
+            } elseif ($item->getProduct()->getId() == $_POST['id']) {
+                if ($item->getQuantity() + $add > $item->getProduct()->getStock() || $item->getQuantity() == $item->getProduct()->getStock()) {
                     $this->get('session')->getFlashBag()->add('notice-failure', 'Insufficient quantity in stock.');
                 } else {
-
                     $this->get('session')->getFlashBag()->add('notice-success', 'Product added to cart');
                     $item->setQuantity($item->getQuantity() + $add);
                     $this->updateCartTotal();
@@ -143,10 +152,8 @@ class CartController extends Controller {
             $cart = $em->getRepository('ShopShopBundle:Cart')->findBy(array('id' => $_SESSION['cart']));
             $cart = $cart[0];
         } else {
-            $userManager = $this->container->get('fos_user.user_manager');
-            $guest = $userManager->findUserByUsername('GUEST');
             $items = array();
-            $cart = $em->getRepository('ShopShopBundle:Cart')->createCart($guest, $em, $items);
+            $cart = $em->getRepository('ShopShopBundle:Cart')->createCart(null, $em, $items);
             $_SESSION['cart'] = $cart->getId();
         }
 
@@ -162,7 +169,7 @@ class CartController extends Controller {
             }
         }
         if (isset($_POST['remove'])) {
-            
+
             return $this->removeAction();
         }
     }

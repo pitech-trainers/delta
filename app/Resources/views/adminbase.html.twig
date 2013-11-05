@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Admin</title>
+        <link rel="stylesheet" href="{{ asset('bundles/shopshop/css/adminscreen.css') }}" type="text/css" media="screen" title="default" />
+
+    </head>
+    <body> 
+        <div id="page-top-outer"> 
+            <div id="page-top">   
+                <div class="clear"></div>
+            </div>
+        </div>    
+            
+        <div class="nav-outer-repeat"> 
+            <div class="nav-outer"> 
+                <div id="nav-right">
+                    <p> Welcome   {{app.user.username}} !</p>
+                    <a href="{#logout#}"><img src="{{asset ('bundles/shopshop/images/shared/nav/nav_logout.gif')}}" width="64" height="14" alt="" /></a>
+                    <div class="clear">&nbsp;</div>
+
+                </div>
+
+                <div class="nav">
+                    <div class="table">
+
+                        <ul class="select">
+
+                           {# TODO Currently selected menu element #}
+
+
+                            <li><a href=""><b>Users</b></a>
+                                <div class="select_sub">
+
+                           {# TODO Currently selected menu element #}
+                                    <ul class="sub">
+                                        <li><a href="">Add User</a></li>
+                                        <li><a href="">List Users</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <div class="nav-divider">&nbsp;</div>
+
+                        <ul class="select">
+                            <li><a href=""><b>Products</b></a>
+                                    <div class="select_sub">
+                                         <ul class="sub">
+                                                 <li><a href="">Add Product</a></li>
+                                                 <li><a href="">List Products</a></li>
+                                             </ul>
+                                         </div>
+                                    </li>
+                                </ul>
+
+                                <div class="nav-divider">&nbsp;</div>
+
+                                <ul class="select">
+                                    <li><a href=""><b>Orders</b></a>
+                                            <div class="select_sub">
+                                                 <ul class="sub">
+                                                         <li><a href="">List Orders</a></li>
+                                                     </ul>
+                                                 </div>
+                                            </li>
+                                        </ul>
+
+                                        <div class="nav-divider">&nbsp;</div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div id="content-outer">
+                            <div id="content">
+
+                                 {%block container%}
+
+                                
+                                
+                                 {%endblock%}
+
+                            </div>
+
+                            <div class="clear">&nbsp;</div>
+                        </div>
+
+                        <div class="clear">&nbsp;</div>
+
+                        <div id="footer">
+                            <div class="clear">&nbsp;</div>
+                        </div>
+
+                    </body>
+                </body>
+            </html>

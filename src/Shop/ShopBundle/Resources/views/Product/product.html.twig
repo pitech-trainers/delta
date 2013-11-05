@@ -151,64 +151,6 @@
                                 </div>
                             </div>
                         </div>
-                      
-                      {%if cart.getCartItems%}
-                    <div class="col-right sidebar">
-                    <div class="block block-cart">
-                        <div class="block-title">
-                            <strong><span>My Cart</span></strong>
-                        </div>
-                        <div class="block-content">
-                            <div class="summary">
-                                
-                                    {%set nritems =  0%}                                
-                                    {%for product in cart.getcartItems%}
-                                    {%set nritems = nritems + product.quantity %}
-                                    {%endfor%}
-                                        <p class="amount">There are <a href="{{path ('shop_shop_cartPage')}}">{{nritems}} items</a> in your cart.</p>
-                                        <p class="subtotal">
-                                                <span class="label">Cart Subtotal:</span>
-                                                <span class="price">{{cart.getTotal}}US$</span>
-                                            </p>
-                            </div>
-                            <div class="actions">
-                                <button type="button" title="Checkout" class="button" onclick="window.location = '/checkout/checkoutBilling'" ><span><span>Checkout</span></span></button>
-                            </div>
-                            <p class="block-subtitle">Recently added item(s)</p>
-                            
-                             <ol id="cart-sidebar" class="mini-products-list">
-                                 {%if cart|length>0  %}
-                                   {%for product in cart.getCartItems  %}   
-                                          <li class="item">
-                                        <a href="{{path ('shop_shop_productpage', {'id' : product.getProductId.categoryid.id , 'productid':  product.getProductId.id})}}" title="{{ product.getProductId.title}}" class="product-image">
-                                            <img src="{{asset ('bundles/shopshop/image/' ~  product.getProductId.filename)}}" width="50" height="50" alt="{{ product.getProductId.title}}" />
-                                        </a>
-                                            <div class="product-details">
-                                                <a href="{{path ('shop_shop_removeitem', {'id' : product.getId})}}" title="Remove This Item" class="btn-remove">Remove This Item</a>
-                                                <a href="{{path ('shop_shop_cartPage')}}" title="Edit item" class="btn-edit">Edit item</a>
-                                                <p class="product-name"><a href="//product/{{product.getId}}">{{product.getTitle}}</a></p>
-                                                <strong>{{product.getQuantity}}</strong> x
-                                                <span class="price">{{product.getPrice}}US$</span>
-                                            </div>
-                                        </li> 
-                                        {% else %}
-                                       {% endfor %}
-                                        {% endif %}
-                                    </ol>
-                        </div>
-                    </div>
-                </div>
-                {%else%}
-                       <div class="col-right sidebar">
-                        <div class="block block-cart">
-                        <div class="block-title">
-                            <strong><span>My Cart</span></strong>
-                        </div>
-                        <div class="block-content">
-                            <p class="empty">You have no items in your shopping cart.</p>
-                        </div>
-                    </div>
-                    </div>
-                {%endif%}
+                      {% include 'ShopShopBundle::CartSidebar/cartsidebar.html.twig' %}
                         </div>
 {%endblock%}
